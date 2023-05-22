@@ -9,6 +9,8 @@ import FeatureNode from '../node/feature';
 
 const Viewport = () => {
     const {
+        currentLocationId,
+        setCurrentLocationId,
         allLocations,
         allFeatures,
         setAllLocations,
@@ -17,10 +19,6 @@ const Viewport = () => {
         getLocationById,
         updateLocation,
     } = useLocationContext();
-
-    const [currentLocationId, setCurrentLocationId] = useState<
-        WorldLocation['id']
-    >(allLocations[0].id);
     const [history, setHistory] = useState<WorldLocation['id'][]>([
         currentLocationId,
     ]);

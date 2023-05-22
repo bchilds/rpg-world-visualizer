@@ -6,6 +6,7 @@ import {
     useState,
 } from 'react';
 import { Feature, WorldLocation } from '../types/location.types';
+import convertToD3Tree from '../components/overview/d3-tree';
 
 export const getDefaultWorldLocation = (): WorldLocation => ({
     id: 0,
@@ -15,7 +16,13 @@ export const getDefaultWorldLocation = (): WorldLocation => ({
     features: [],
 });
 
+// TODO convert allLocations and allFeatures to maps
+
 type LocationContextType = {
+    currentLocationId: WorldLocation['id'];
+    setCurrentLocationId: React.Dispatch<
+        React.SetStateAction<WorldLocation['id']>
+    >;
     allLocations: WorldLocation[];
     allFeatures: Feature[];
     setAllLocations: React.Dispatch<React.SetStateAction<WorldLocation[]>>;
@@ -24,9 +31,12 @@ type LocationContextType = {
     getLocationsByIds: (locationIds: WorldLocation['id'][]) => WorldLocation[];
     updateLocation: (location: WorldLocation) => void;
     updateFeature: (feature: Feature) => void;
+    convertNodeToTree: (id: WorldLocation['id']) => any;
 };
 
 export const LocationContext = createContext<LocationContextType>({
+    currentLocationId: 0,
+    setCurrentLocationId: () => {},
     allLocations: [getDefaultWorldLocation()],
     allFeatures: [],
     setAllLocations: () => {},
@@ -35,14 +45,20 @@ export const LocationContext = createContext<LocationContextType>({
     getLocationsByIds: () => [],
     updateLocation: () => {},
     updateFeature: () => {},
+    convertNodeToTree: () => {},
 });
 export const useLocationContext = () => useContext(LocationContext);
 
-export const LocationProvider = ({ children }: { children: JSX.Element }) => {
+export const LocationProvider = ({
+    children,
+}: {
+    children: JSX.Element | JSX.Element[];
+}) => {
     const [allLocations, setAllLocations] = useState<WorldLocation[]>(() => [
         getDefaultWorldLocation(),
     ]);
     const [allFeatures, setAllFeatures] = useState<Feature[]>([]);
+    const [currentLocationId, setCurrentLocationId] = useState(0);
 
     // get locations from list of IDs
     const getLocationsByIds = useCallback(
@@ -93,8 +109,17 @@ export const LocationProvider = ({ children }: { children: JSX.Element }) => {
         [setAllFeatures]
     );
 
+    // builds a tree from target node
+    const convertNodeToTree = (id: WorldLocation['id']) => {
+        const node = getLocationById(id);
+        const tree = convertToD3Tree(node, getLocationById);
+        return tree;
+    };
+
     const locationContextValue: LocationContextType = useMemo(
         () => ({
+            currentLocationId,
+            setCurrentLocationId,
             allLocations,
             allFeatures,
             setAllLocations,
@@ -103,8 +128,11 @@ export const LocationProvider = ({ children }: { children: JSX.Element }) => {
             getLocationById,
             updateLocation,
             updateFeature,
+            convertNodeToTree,
         }),
         [
+            currentLocationId,
+            setCurrentLocationId,
             allLocations,
             allFeatures,
             setAllLocations,
@@ -113,6 +141,7 @@ export const LocationProvider = ({ children }: { children: JSX.Element }) => {
             getLocationById,
             updateLocation,
             updateFeature,
+            convertNodeToTree,
         ]
     );
 

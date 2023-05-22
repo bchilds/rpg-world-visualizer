@@ -1,0 +1,10 @@
+.overview {
+    width: 80dvw;
+    height: 90dvh;
+    background-color: #666;
+}
+
+.rd3t-label__attributes {
+    /* overrides */
+    fill: white !important;
+}
