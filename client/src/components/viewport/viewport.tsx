@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Feature, WorldLocation } from '../../types/location.types';
 import WorldNode from '../node/world-location';
 import {
@@ -143,6 +143,14 @@ const Viewport = () => {
                 getDefaultWorldLocation()
         );
     };
+
+    useEffect(() => {
+        // handle loading of data while in viewport mode
+        updateCurrentLocationState(
+            allLocations.find((loc) => loc.id === currentLocationId) ??
+                getDefaultWorldLocation()
+        );
+    }, [allLocations]);
 
     return (
         <div className="viewport">

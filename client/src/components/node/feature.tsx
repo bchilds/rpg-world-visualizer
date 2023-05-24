@@ -68,11 +68,13 @@ const FeatureNode = ({
                 value={name}
                 onChange={handleNameChange}
                 onKeyDown={handleEnter}
+                placeholder="Name of feature"
             />
             <textarea
                 value={description}
                 onChange={handleDescriptionChange}
                 onKeyDown={handleEnter}
+                placeholder="Description of feature"
             />
             {isDirty && (
                 <SaveControls

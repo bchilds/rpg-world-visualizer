@@ -3,7 +3,7 @@ import { WorldLocation, Feature } from '../../types/location.types';
 export type D3NodeAttributes = {
     id: number;
     description?: string;
-    features: Feature['id'][];
+    features: number;
 };
 
 export type D3TreeNode = {
@@ -22,7 +22,7 @@ const convertToD3Tree = (
         attributes: {
             id,
             description,
-            features,
+            features: features.length,
         },
         children: [],
     };
