@@ -1,7 +1,7 @@
 {
-    "name": "test-workspace",
+    "name": "rpg-world-visualizer",
     "version": "1.0.0",
-    "description": "",
+    "description": "Dis how I envision my RPG worlds",
     "main": "index.js",
     "scripts": {
         "start": "pnpm --stream -r start",
@@ -10,6 +10,6 @@
         "clean": "rm -rf .parcel-cache && pnpm -r run clean"
     },
     "keywords": [],
-    "author": "",
-    "license": "ISC"
+    "author": "Benjamin T. Childs <benjamin.t.childs@gmail.com>",
+    "license": "MIT"
 }
