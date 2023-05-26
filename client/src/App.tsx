@@ -1,10 +1,10 @@
+import { Fragment, useState } from 'react';
 import { LocationProvider } from './contexts/location.context';
 import Viewport from './components/viewport/viewport';
 import Overview from './components/overview/overview';
-import { Fragment, useState } from 'react';
+import DataLoader from './components/data-loader/data-loader';
 
 import './App.css';
-import DataLoader from './components/data-loader/data-loader';
 
 const viewModes = {
     viewport: 'viewport',
@@ -18,6 +18,11 @@ function App() {
         <div className="app">
             <LocationProvider>
                 <DataLoader />
+                <p>
+                    Add features to describe a location, or child locations.
+                    Click generate to get a compressed string for your data.
+                    Paste it in and hit Load to load in said string.
+                </p>
                 <div className="view-mode-controls">
                     <button onClick={() => setViewMode('viewport')}>
                         Viewport
