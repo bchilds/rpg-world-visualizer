@@ -1,28 +1,22 @@
 import { useState } from 'react';
-import LZString from 'lz-string';
 import { useLocationContext } from '../../contexts/location.context';
+import { generateCompressedString } from '../../services/data-loader';
 
 const DataLoader = () => {
-    const { allLocations, setAllLocations, allFeatures, setAllFeatures } =
+    const { allLocations, allFeatures, loadWorldFromCompressedString } =
         useLocationContext();
     const [compressedString, setCompressedString] = useState<string>('');
 
     const onGenerate = () => {
-        const compressedData = LZString.compressToEncodedURIComponent(
-            JSON.stringify({ allLocations, allFeatures })
-        );
+        const compressedData = generateCompressedString({
+            allLocations,
+            allFeatures,
+        });
         setCompressedString(compressedData);
     };
 
     const onLoad = () => {
-        const decompressedData =
-            LZString.decompressFromEncodedURIComponent(compressedString);
-        if (!decompressedData) return;
-
-        const { allLocations: newAllLocations, allFeatures: newAllFeatures } =
-            JSON.parse(decompressedData);
-        setAllLocations(newAllLocations);
-        setAllFeatures(newAllFeatures);
+        loadWorldFromCompressedString(compressedString);
         setCompressedString('');
     };
 

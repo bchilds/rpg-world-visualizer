@@ -3,9 +3,9 @@ import { LocationProvider } from './contexts/location.context';
 import Viewport from './components/viewport/viewport';
 import Overview from './components/overview/overview';
 import DataLoader from './components/data-loader/data-loader';
+import Sidebar from './components/sidebar/sidebar';
 
 import './App.css';
-import Sidebar from './components/sidebar/sidebar';
 
 const viewModes = {
     viewport: 'viewport',

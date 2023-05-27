@@ -2,11 +2,22 @@ import {
     createContext,
     useCallback,
     useContext,
+    useEffect,
     useMemo,
     useState,
 } from 'react';
 import { Feature, WorldLocation } from '../types/location.types';
 import convertToD3Tree from '../components/overview/d3-tree';
+import { LocalStorageWorldsMap } from '../types/local-storage.types';
+import {
+    addOrUpdateWorld,
+    getWorlds,
+    removeWorld,
+} from '../services/local-storage-api';
+import {
+    generateCompressedString,
+    loadDataFromCompressedString,
+} from '../services/data-loader';
 
 export const getDefaultWorldLocation = (): WorldLocation => ({
     id: 0,
@@ -15,8 +26,6 @@ export const getDefaultWorldLocation = (): WorldLocation => ({
     childLocations: [],
     features: [],
 });
-
-// TODO convert allLocations and allFeatures to maps
 
 type LocationContextType = {
     currentLocationId: WorldLocation['id'];
@@ -32,6 +41,10 @@ type LocationContextType = {
     updateLocation: (location: WorldLocation) => void;
     updateFeature: (feature: Feature) => void;
     convertNodeToTree: (id: WorldLocation['id']) => any;
+    worlds: LocalStorageWorldsMap;
+    loadWorldFromCompressedString: (compressedString: string) => void;
+    generateCompressedStringForWorld: () => string;
+    createNewWorld: () => void;
 };
 
 export const LocationContext = createContext<LocationContextType>({
@@ -39,6 +52,7 @@ export const LocationContext = createContext<LocationContextType>({
     setCurrentLocationId: () => {},
     allLocations: [getDefaultWorldLocation()],
     allFeatures: [],
+    worlds: {},
     setAllLocations: () => {},
     setAllFeatures: () => {},
     getLocationById: () => getDefaultWorldLocation(),
@@ -46,6 +60,9 @@ export const LocationContext = createContext<LocationContextType>({
     updateLocation: () => {},
     updateFeature: () => {},
     convertNodeToTree: () => {},
+    loadWorldFromCompressedString: () => {},
+    generateCompressedStringForWorld: () => '',
+    createNewWorld: () => {},
 });
 export const useLocationContext = () => useContext(LocationContext);
 
@@ -54,11 +71,50 @@ export const LocationProvider = ({
 }: {
     children: JSX.Element | JSX.Element[];
 }) => {
-    const [allLocations, setAllLocations] = useState<WorldLocation[]>(() => [
-        getDefaultWorldLocation(),
-    ]);
+    const [worlds, setWorlds] = useState<LocalStorageWorldsMap>(() => {
+        const storageWorlds = getWorlds();
+        return storageWorlds;
+    });
+    const [allLocations, setAllLocations] = useState<WorldLocation[]>(() => {
+        const defaultLocation = getDefaultWorldLocation();
+        return [defaultLocation];
+    });
     const [allFeatures, setAllFeatures] = useState<Feature[]>([]);
     const [currentLocationId, setCurrentLocationId] = useState(0);
+
+    const createNewWorld = useCallback(() => {
+        const defaultLocation = getDefaultWorldLocation();
+        setAllLocations([defaultLocation]);
+        setAllFeatures([]);
+        setCurrentLocationId(defaultLocation.id);
+    }, [setAllFeatures, setAllLocations, setCurrentLocationId]);
+
+    // loads the world tree from compressed string data
+    const loadWorldFromCompressedString = useCallback(
+        (compressedString: string) => {
+            const data = loadDataFromCompressedString(compressedString);
+            if (data) {
+                const {
+                    allLocations: newAllLocations,
+                    allFeatures: newAllFeatures,
+                } = data;
+
+                setAllLocations(newAllLocations);
+                setAllFeatures(newAllFeatures);
+            }
+        },
+        [allLocations, allFeatures]
+    );
+
+    // generates a new compressed string for the current world
+    const generateCompressedStringForWorld = useCallback(() => {
+        const data = {
+            allLocations,
+            allFeatures,
+        };
+        const compressedString = generateCompressedString(data);
+        return compressedString;
+    }, [allFeatures, allLocations]);
 
     // get locations from list of IDs
     const getLocationsByIds = useCallback(
@@ -88,10 +144,34 @@ export const LocationProvider = ({
                     (loc) => loc.id === location.id
                 );
                 nextLocations[locationIndex] = location;
+
                 return nextLocations;
             });
+
+            // if root location, we should check if the name of the world has changed
+            if (location.id === 0 && !worlds[location.name]) {
+                // if it has, we need to update worlds and local storage
+
+                // get the previous name of the root location
+                const previousRootLocation = allLocations[0];
+                const previousRootLocationName = previousRootLocation.name;
+
+                // see if there is a world with the same name
+                const worldWithSameName = Object.values(worlds).find(
+                    (world) => world.name === previousRootLocationName
+                );
+
+                // if there's a world with the same name, remove it from local storage
+                if (worldWithSameName) {
+                    removeWorld(worldWithSameName.name);
+                    addOrUpdateWorld(location.name, '');
+
+                    const newWorlds = getWorlds();
+                    setWorlds(newWorlds);
+                }
+            }
         },
-        [setAllLocations]
+        [setAllLocations, allLocations]
     );
 
     // update feature
@@ -110,11 +190,27 @@ export const LocationProvider = ({
     );
 
     // builds a tree from target node
-    const convertNodeToTree = (id: WorldLocation['id']) => {
-        const node = getLocationById(id);
-        const tree = convertToD3Tree(node, getLocationById);
-        return tree;
-    };
+    const convertNodeToTree = useCallback(
+        (id: WorldLocation['id']) => {
+            const node = getLocationById(id);
+            const tree = convertToD3Tree(node, getLocationById);
+            return tree;
+        },
+        [getLocationById]
+    );
+
+    // side-effects based on data changes
+
+    // generate new compressed string for current world on data change
+    useEffect(() => {
+        // get new string
+        const newCompressedStringForCurrentWorld =
+            generateCompressedStringForWorld();
+
+        // update local storage
+        const currentWorld = getLocationById(0);
+        addOrUpdateWorld(currentWorld.name, newCompressedStringForCurrentWorld);
+    }, [allLocations, allFeatures, getLocationById]);
 
     const locationContextValue: LocationContextType = useMemo(
         () => ({
@@ -129,6 +225,10 @@ export const LocationProvider = ({
             updateLocation,
             updateFeature,
             convertNodeToTree,
+            worlds,
+            loadWorldFromCompressedString,
+            generateCompressedStringForWorld,
+            createNewWorld,
         }),
         [
             currentLocationId,
@@ -142,6 +242,10 @@ export const LocationProvider = ({
             updateLocation,
             updateFeature,
             convertNodeToTree,
+            worlds,
+            loadWorldFromCompressedString,
+            generateCompressedStringForWorld,
+            createNewWorld,
         ]
     );
 

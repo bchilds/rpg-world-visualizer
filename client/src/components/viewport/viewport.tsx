@@ -158,7 +158,7 @@ const Viewport = () => {
         <div className="viewport">
             <div className="viewport-header">
                 <WorldNode
-                    key={currentLocationId}
+                    key={`${currentLocationId}-${getLocationById(currentLocationId).name}`}
                     locationId={currentLocationId}
                     onSelect={() => {}}
                     onUpdate={() => {}}

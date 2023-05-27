@@ -3,4 +3,5 @@
   border-right: 1px solid #666;
   /* we can adjust this later */
   width: 20%;
+  min-width: 200px;
 }
