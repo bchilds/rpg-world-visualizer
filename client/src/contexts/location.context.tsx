@@ -164,11 +164,11 @@ export const LocationProvider = ({
                 // if there's a world with the same name, remove it from local storage
                 if (worldWithSameName) {
                     removeWorld(worldWithSameName.name);
-                    addOrUpdateWorld(location.name, '');
-
-                    const newWorlds = getWorlds();
-                    setWorlds(newWorlds);
                 }
+                addOrUpdateWorld(location.name, '');
+
+                const newWorlds = getWorlds();
+                setWorlds(newWorlds);
             }
         },
         [setAllLocations, allLocations]
@@ -203,12 +203,18 @@ export const LocationProvider = ({
 
     // generate new compressed string for current world on data change
     useEffect(() => {
+        const currentWorld = getLocationById(0);
+        const defaultLocation = getDefaultWorldLocation();
+
+        if (currentWorld.name === defaultLocation.name) {
+            return;
+        }
+
         // get new string
         const newCompressedStringForCurrentWorld =
             generateCompressedStringForWorld();
 
         // update local storage
-        const currentWorld = getLocationById(0);
         addOrUpdateWorld(currentWorld.name, newCompressedStringForCurrentWorld);
     }, [allLocations, allFeatures, getLocationById]);
 

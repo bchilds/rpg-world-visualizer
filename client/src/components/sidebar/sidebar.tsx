@@ -4,8 +4,12 @@ import { LocationContext } from '../../contexts/location.context';
 import './sidebar.css';
 
 const Sidebar = () => {
-    const { worlds, getLocationById, loadWorldFromCompressedString } =
-        useContext(LocationContext);
+    const {
+        worlds,
+        getLocationById,
+        loadWorldFromCompressedString,
+        createNewWorld,
+    } = useContext(LocationContext);
     const currentWorldName = getLocationById(0).name;
     const worldNames = Object.keys(worlds);
 
@@ -17,13 +21,13 @@ const Sidebar = () => {
         ) {
             return;
         }
-        console.log('LOADING: ', targetWorldCompressedString);
+        console.log('LOADING WORLD: ', targetWorldCompressedString);
         loadWorldFromCompressedString(targetWorldCompressedString);
     };
     return (
         <div className="sidebar-container">
             <h3>Saved Worlds</h3>
-            <button>Create New World</button>
+            <button onClick={createNewWorld}>Create New World</button>
             <ul>
                 {worldNames.map((name) => {
                     return (
