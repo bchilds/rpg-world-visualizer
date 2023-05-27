@@ -79,7 +79,3 @@ resource "aws_route53_record" "a" {
     evaluate_target_health = false
   }
 }
-
-# TODO
-# s3 policy update?
-# A record in route 53
