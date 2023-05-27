@@ -7,31 +7,28 @@ resource "aws_s3_bucket" "rpg-visualizer-bucket" {
   }
 }
 
-# resource "aws_s3_bucket_acl" "acl" {
-#   bucket = aws_s3_bucket.rpg-visualizer-bucket.id
-#   acl    = "private"
-# }
-
 locals {
   s3_origin_id = "rpg.benjamintchilds.com"
 }
 
+resource "aws_cloudfront_origin_access_control" "default" {
+  name                              = "RPG Visualizer"
+  description                       = "access identity for cloudfront to the rpg visualizer s3 bucket"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
-    domain_name = aws_s3_bucket.rpg-visualizer-bucket.bucket_regional_domain_name
-    # origin_access_control_id = aws_cloudfront_origin_access_control.default.id
-    origin_id = local.s3_origin_id
+    domain_name              = aws_s3_bucket.rpg-visualizer-bucket.bucket_regional_domain_name
+    origin_access_control_id = aws_cloudfront_origin_access_control.default.id
+    origin_id                = local.s3_origin_id
   }
 
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
-
-  # logging_config {
-  #   include_cookies = false
-  #   bucket          = "rpgviz.s3.amazonaws.com"
-  #   prefix          = "rpg-visualizer"
-  # }
 
   aliases = ["rpg.benjamintchilds.com"]
 
@@ -54,8 +51,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     max_ttl                = 86400
   }
 
-  # price_class = "PriceClass_200"
-
   restrictions {
     geo_restriction {
       restriction_type = "whitelist"
@@ -68,13 +63,23 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn            = "arn:aws:acm:us-east-1:266311873973:certificate/2a1185f4-0384-4ef1-ac7e-7b89c9f3e4b3"
-    cloudfront_default_certificate = true
-    ssl_support_method             = "sni-only"
+    acm_certificate_arn = "arn:aws:acm:us-east-1:266311873973:certificate/2a1185f4-0384-4ef1-ac7e-7b89c9f3e4b3" # hard-coded since this exists already, will change if necessary
+    ssl_support_method  = "sni-only"
+  }
+}
+
+resource "aws_route53_record" "a" {
+  zone_id = "Z3CJM0U1ESLF2W"
+  name    = "rpg.benjamintchilds.com"
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+    evaluate_target_health = false
   }
 }
 
 # TODO
-# origin access control
-# s3 policy update
+# s3 policy update?
 # A record in route 53
