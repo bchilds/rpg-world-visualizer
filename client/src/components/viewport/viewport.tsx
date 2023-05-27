@@ -7,6 +7,8 @@ import {
 } from '../../contexts/location.context';
 import FeatureNode from '../node/feature';
 
+import './viewport.css';
+
 const Viewport = () => {
     const {
         currentLocationId,
