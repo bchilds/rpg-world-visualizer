@@ -79,7 +79,9 @@ export const LocationProvider = ({
         const defaultLocation = getDefaultWorldLocation();
         return [defaultLocation];
     });
-    const [allFeatures, setAllFeatures] = useState<Feature[]>([]);
+    const [allFeatures, setAllFeatures] = useState<Feature[]>(() => {
+        return [];
+    });
     const [currentLocationId, setCurrentLocationId] = useState(0);
 
     const createNewWorld = useCallback(() => {
@@ -200,6 +202,15 @@ export const LocationProvider = ({
     );
 
     // side-effects based on data changes
+    // initial string load
+    useEffect(() => {
+        if (window.location.hash) {
+            const compressedString = window.location.hash.slice(1);
+            loadWorldFromCompressedString(compressedString);
+
+            window.location.hash = '';
+        }
+    }, []);
 
     // generate new compressed string for current world on data change
     useEffect(() => {

@@ -7,8 +7,8 @@ export const loadDataFromCompressedString = (compressedString: string) => {
     if (!decompressedData) return;
 
     const {
-        allLocations,
-        allFeatures,
+        allLocations = [],
+        allFeatures = [],
     }: {
         allLocations: WorldLocation[];
         allFeatures: Feature[];
