@@ -13,4 +13,6 @@
     /* needs alternate behavior for small screens */
     padding: 2rem;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
