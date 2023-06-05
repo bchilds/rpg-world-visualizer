@@ -1,4 +1,5 @@
 .overview {
+    position: relative;
     max-width: 80dvw;
     height: 90dvh;
     background-color: #666;

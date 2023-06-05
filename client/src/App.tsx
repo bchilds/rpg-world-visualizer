@@ -27,18 +27,28 @@ function App() {
                         Paste it in and hit Load to load in said string.
                     </p>
                     <div className="view-mode-controls">
-                        <button onClick={() => setViewMode('viewport')}>
+                        <button
+                            onClick={() => setViewMode('viewport')}
+                            className={
+                                viewMode === 'viewport' ? 'selected' : ''
+                            }
+                        >
                             Viewport
                         </button>
-                        <button onClick={() => setViewMode('overview')}>
+                        <button
+                            onClick={() => setViewMode('overview')}
+                            className={
+                                viewMode === 'overview' ? 'selected' : ''
+                            }
+                        >
                             Overview
                         </button>
                     </div>
                     <Fragment>
                         {viewMode === viewModes.viewport && <Viewport />}
-                        {viewMode === 'overview' && (
+                        {viewMode === viewModes.overview && (
                             <Overview
-                                onNodeClick={() =>
+                                onNodeSelect={() =>
                                     setViewMode(viewModes.viewport)
                                 }
                             />
