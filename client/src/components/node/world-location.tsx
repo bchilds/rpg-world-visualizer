@@ -10,12 +10,14 @@ type WorldNodeProps = {
     onSelect: () => void;
     onDelete?: () => void;
     onUpdate: (newLocationData: WorldLocation) => void;
+    className?: string;
 };
 
 export const WorldNode = ({
     locationId,
     onSelect,
     onDelete,
+    className = '',
 }: WorldNodeProps) => {
     const { getLocationById, updateLocation } = useLocationContext();
     const location = getLocationById(locationId);
@@ -54,7 +56,7 @@ export const WorldNode = ({
     }, [name, description]);
 
     return (
-        <div className="worldnode-container" onClick={onSelect}>
+        <div className={`worldnode-container ${className}`} onClick={onSelect}>
             {onDelete && (
                 <button
                     className="worldnode-action"

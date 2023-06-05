@@ -162,6 +162,7 @@ const Viewport = () => {
                     locationId={currentLocationId}
                     onSelect={() => {}}
                     onUpdate={() => {}}
+                    className="current-location"
                 />
                 <div className="controls">
                     <button disabled={history.length === 1} onClick={onBack}>

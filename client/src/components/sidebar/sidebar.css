@@ -9,3 +9,8 @@
 .sidebar-container ul li {
   cursor: pointer;
 }
+
+.sidebar-container ul li.selected {
+  background-color: var(--selected-button-color);
+  cursor: default;
+}

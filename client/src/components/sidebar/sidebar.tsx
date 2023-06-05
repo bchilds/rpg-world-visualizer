@@ -32,6 +32,7 @@ const Sidebar = () => {
                 {worldNames.map((name) => {
                     return (
                         <li
+                            className={currentWorldName === name ? 'selected' : ''}
                             key={name}
                             onClick={() => {
                                 _onClick(worlds[name].worldTreeCompressed);

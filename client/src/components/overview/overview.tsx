@@ -52,16 +52,19 @@ const Overview = ({ onNodeSelect }: { onNodeSelect: () => void }) => {
             return;
         }
 
-        // if target is the same as reassigned child, unselect
-        if (reassignChild === data.attributes.id) {
-            setReassignChild(null);
-            return;
-        }
 
+        // There's a known bug where if you pick try and reassign a parent node to a child node, it just deletes errything
+        // gotta fix that somehow. Not sure best way.
+        
         // nodeData is the new parent
         // assign the child id to the parent list of children
         // remove the child from the old parent list of children
         const newParent = getLocationById(data.attributes.id);
+        // if target is the same as reassigned child, unselect
+        if (reassignChild === data.attributes.id || newParent.childLocations.includes(reassignChild)) {
+            setReassignChild(null);
+            return;
+        }
         const oldParent = allLocations.find((l) =>
             l.childLocations.includes(reassignChild)
         );
@@ -80,12 +83,13 @@ const Overview = ({ onNodeSelect }: { onNodeSelect: () => void }) => {
             ),
         };
 
-        setReassignChild(null);
         updateLocation(updatedNewParent);
         updateLocation(updatedOldParent);
+        setReassignChild(null);
     };
 
     const _onNodeClick: TreeNodeEventCallback = (nodeData, event) => {
+        console.log({ nodeData, event })
         if (overviewToolMode === 'select') {
             setReassignChild(null);
             return _onNodeSelect(nodeData, event);

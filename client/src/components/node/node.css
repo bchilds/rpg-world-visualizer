@@ -55,3 +55,7 @@
 .save-controls {
     grid-column: 1 / -1;
 }
+
+.worldnode-container.current-location {
+    cursor: default;
+}
