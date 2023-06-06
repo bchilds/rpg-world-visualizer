@@ -6,8 +6,15 @@
   min-width: 200px;
 }
 
+.sidebar-container ul {
+  margin: 1rem 0 0 0;
+  padding: 0;
+  list-style: none;
+}
+
 .sidebar-container ul li {
   cursor: pointer;
+  padding: 0.5rem 0;
 }
 
 .sidebar-container ul li.selected {

@@ -1,6 +1,7 @@
 #root {
     text-align: center;
     height: 100dvh;
+    width: 100dvw;
 }
 
 .app {
@@ -15,6 +16,7 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .view-mode-controls {

@@ -62,7 +62,7 @@ const FeatureNode = ({
 
     return (
         <div className="feature-container">
-            <button onClick={() => onDelete(feature)}>x</button>
+            <button className="delete-node" onClick={() => onDelete(feature)}>x</button>
             <input
                 type="text"
                 value={name}

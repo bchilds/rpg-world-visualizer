@@ -59,7 +59,7 @@ export const WorldNode = ({
         <div className={`worldnode-container ${className}`} onClick={onSelect}>
             {onDelete && (
                 <button
-                    className="worldnode-action"
+                    className="worldnode-action delete-node"
                     onClick={(e: React.SyntheticEvent) => {
                         //  make close component w/ confirm as double click
                         e.stopPropagation();
