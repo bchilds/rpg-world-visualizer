@@ -18,6 +18,7 @@ const DataLoader = () => {
         setButtonText('Copied!');
         setTimeout(() => {
             // TODO async safe
+            // really this should just be the notification component from Mantine
             setButtonText('Copy World URL');
         }
         , 2000);

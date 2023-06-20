@@ -13,6 +13,7 @@ import {
     addOrUpdateWorld,
     getWorlds,
     removeWorld,
+    setCurrentWorld,
 } from '../services/local-storage-api';
 import {
     generateCompressedString,
@@ -207,6 +208,8 @@ export const LocationProvider = ({
         if (window.location.hash) {
             const compressedString = window.location.hash.slice(1);
             loadWorldFromCompressedString(compressedString);
+            setCurrentWorld(compressedString);
+
 
             window.location.hash = '';
         }
@@ -227,6 +230,10 @@ export const LocationProvider = ({
 
         // update local storage
         addOrUpdateWorld(currentWorld.name, newCompressedStringForCurrentWorld);
+
+        // update worlds
+        const newWorlds = getWorlds();
+        setWorlds(newWorlds);
     }, [allLocations, allFeatures, getLocationById]);
 
     const locationContextValue: LocationContextType = useMemo(
