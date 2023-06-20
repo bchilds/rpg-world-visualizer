@@ -57,4 +57,5 @@ button:focus-visible {
 
 textarea {
   min-height: 3rem;
+  padding: 0.5rem;
 }
