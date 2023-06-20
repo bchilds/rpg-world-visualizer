@@ -23,8 +23,8 @@ function App() {
                     <DataLoader />
                     <p>
                         Add features to describe a location, or child locations.
-                        Click generate to get a compressed string for your data.
-                        Paste it in and hit Load to load in said string.
+                        Click 'copy' to get a compressed string for your world.
+                        You can paste a compressing string in after a '#' in the URL to load that world.
                     </p>
                     <div className="view-mode-controls">
                         <button
