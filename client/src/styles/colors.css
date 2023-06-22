@@ -1,4 +1,7 @@
 :root {
   --selected-button-color: green;
   --danger-red: #cc0000;
+  --background-color-secondary: #666;
+  --border-color-gray: #999;
+  --font-color-light: #fff;
 }

@@ -1,4 +1,4 @@
-import {
+import React, {
     createContext,
     useCallback,
     useContext,
@@ -70,7 +70,7 @@ export const useLocationContext = () => useContext(LocationContext);
 export const LocationProvider = ({
     children,
 }: {
-    children: JSX.Element | JSX.Element[];
+    children: React.ReactNode;
 }) => {
     const [worlds, setWorlds] = useState<LocalStorageWorldsMap>(() => {
         const storageWorlds = getWorlds();

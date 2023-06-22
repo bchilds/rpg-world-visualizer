@@ -1,12 +1,15 @@
-import { useState } from 'react';
 import { useLocationContext } from '../../contexts/location.context';
 import { generateCompressedString } from '../../services/data-loader';
 import { useCopyToClipboard } from '../../hooks/use-copy-to-clipboard';
+import { createNotification } from '../notifications/notification-manager';
+import { COLORS } from '../../styles/colors';
+
+const COPY_TEXT = 'Copy World URL'
+const COPY_MESSAGE = 'Copied world URL to clipboard!';
 
 const DataLoader = () => {
     const { allLocations, allFeatures } = useLocationContext();
     const [_copiedText, copy] = useCopyToClipboard();
-    const [buttonText, setButtonText] = useState<string>('Copy World URL');
 
     const onGenerate = () => {
         const compressedData = generateCompressedString({
@@ -15,18 +18,30 @@ const DataLoader = () => {
         });
         const worldUrl = `${window.location.origin}#${compressedData}`;
         copy(worldUrl);
-        setButtonText('Copied!');
-        setTimeout(() => {
-            // TODO async safe
-            // really this should just be the notification component from Mantine
-            setButtonText('Copy World URL');
-        }
-        , 2000);
+        createNotification({
+            message: COPY_MESSAGE,
+            color: 'gray',
+            autoClose: 3000,
+            styles: {
+                root: {
+                    backgroundColor: COLORS.lightBackground,
+                    
+                    '&[data-with-border]': {
+                        border: `3px solid ${COLORS.borderGray}`,
+                    }
+                },
+                description: {
+                    padding: '0.5rem',
+                    color: COLORS.fontColor,
+                    fontSize: '1rem',
+                },
+            }
+        });
     };
 
     return (
         <div className="data-load-controls">
-            <button onClick={onGenerate}>{buttonText}</button>
+            <button onClick={onGenerate}>{COPY_TEXT}</button>
         </div>
     );
 };

@@ -1,11 +1,11 @@
 import { Fragment, useState } from 'react';
-import { LocationProvider } from './contexts/location.context';
 import Viewport from './components/viewport/viewport';
 import Overview from './components/overview/overview';
 import DataLoader from './components/data-loader/data-loader';
 import Sidebar from './components/sidebar/sidebar';
 
 import './App.css';
+import { AppWrappers } from './app-wrappers';
 
 const viewModes = {
     viewport: 'viewport',
@@ -17,7 +17,7 @@ function App() {
     const [viewMode, setViewMode] = useState<ViewMode>(viewModes.viewport);
     return (
         <div className="app">
-            <LocationProvider>
+            <AppWrappers>
                 <Sidebar />
                 <div className="content-container">
                     <DataLoader />
@@ -53,7 +53,7 @@ function App() {
                         )}
                     </Fragment>
                 </div>
-            </LocationProvider>
+            </AppWrappers>
         </div>
     );
 }

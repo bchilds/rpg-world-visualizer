@@ -24,6 +24,7 @@
     flex-direction: row;
     justify-content: center;
     gap: 5px;
+    margin: 1rem 0;
 }
 
 .view-mode-controls button.selected {
