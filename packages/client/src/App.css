@@ -2,11 +2,14 @@
     text-align: center;
     height: 100dvh;
     width: 100dvw;
+    overflow-x: hidden;
 }
 
 .content-container {
     /* needs alternate behavior for small screens */
-    padding: 2rem;
+    padding: 1rem;
+    padding-top: 0;
+    gap: 1rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;

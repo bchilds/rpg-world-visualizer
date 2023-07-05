@@ -34,10 +34,12 @@ const Sidebar = ({ opened }: SidebarProps) => {
             p="md"
             hiddenBreakpoint="sm"
             hidden={!opened}
-            width={{ sm: 150, md:255, lg: 300 }}
-            className='sidebar-container'
+            width={{ sm: 150, md: 255, lg: 300 }}
+            className="sidebar-container"
         >
-            <Title order={2} size='h3'>Saved Worlds</Title>
+            <Title order={2} size="h3">
+                Saved Worlds
+            </Title>
             <button onClick={createNewWorld}>New World</button>
             <ul>
                 {worldNames.map((name) => {

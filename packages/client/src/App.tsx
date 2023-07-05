@@ -1,12 +1,14 @@
 import { Fragment, useState } from 'react';
 import {
-    AppShell, Header,
+    AppShell,
+    Header,
     Footer,
     MediaQuery,
     Burger,
     useMantineTheme,
     Title,
-    Flex
+    Flex,
+    Text,
 } from '@mantine/core';
 
 import { AppWrappers } from './app-wrappers';
@@ -23,11 +25,11 @@ function App() {
     const [opened, setOpened] = useState(false);
     const [viewMode, setViewMode] = useState<ViewMode>(viewModes.viewport);
 
+    // todo pass setOpened into navbar for onClick close behavior
     return (
         <AppWrappers>
             <AppShell
                 navbarOffsetBreakpoint="sm"
-                asideOffsetBreakpoint="sm"
                 navbar={<Sidebar opened={opened} />}
                 footer={
                     <Footer height="60">
@@ -106,11 +108,14 @@ function App() {
                         </div>
                     </Header>
                 }
+                styles={{
+                    main: { overflowX: 'hidden' },
+                }}
             >
                 <div className="content-container">
-                    <p>
+                    <Text>
                         Add features to describe a location, or child locations.
-                    </p>
+                    </Text>
 
                     <Fragment>
                         {viewMode === viewModes.viewport && <Viewport />}
