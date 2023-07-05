@@ -4,7 +4,7 @@ import { useCopyToClipboard } from '../../hooks/use-copy-to-clipboard';
 import { createNotification } from '../notifications/notification-manager';
 import { COLORS } from '../../styles/colors';
 
-const COPY_TEXT = 'Copy World URL'
+const COPY_TEXT = 'Copy World URL';
 const COPY_MESSAGE = 'Copied world URL to clipboard!';
 
 const DataLoader = () => {
@@ -25,25 +25,21 @@ const DataLoader = () => {
             styles: {
                 root: {
                     backgroundColor: COLORS.lightBackground,
-                    
+
                     '&[data-with-border]': {
                         border: `3px solid ${COLORS.borderGray}`,
-                    }
+                    },
                 },
                 description: {
                     padding: '0.5rem',
                     color: COLORS.fontColor,
                     fontSize: '1rem',
                 },
-            }
+            },
         });
     };
 
-    return (
-        <div className="data-load-controls">
-            <button onClick={onGenerate}>{COPY_TEXT}</button>
-        </div>
-    );
+    return <button onClick={onGenerate}>{COPY_TEXT}</button>;
 };
 
 export default DataLoader;

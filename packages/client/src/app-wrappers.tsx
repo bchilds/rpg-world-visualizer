@@ -4,7 +4,9 @@ import { LocationProvider } from './contexts/location.context';
 
 export const AppWrappers = ({ children }: { children: React.ReactNode }) => {
     return (
-        <MantineProvider withNormalizeCSS>
+        <MantineProvider theme={{
+            colorScheme: 'dark',
+        }} withNormalizeCSS>
             <Notifications position='top-right'/>
             <LocationProvider>{children}</LocationProvider>
         </MantineProvider>
