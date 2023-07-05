@@ -1,14 +1,12 @@
 import { Fragment, useState } from 'react';
 import {
-    AppShell,
-    Navbar,
-    Header,
+    AppShell, Header,
     Footer,
     MediaQuery,
     Burger,
     useMantineTheme,
     Title,
-    Flex,
+    Flex
 } from '@mantine/core';
 
 import { AppWrappers } from './app-wrappers';
@@ -28,32 +26,15 @@ function App() {
     return (
         <AppWrappers>
             <AppShell
-                styles={{
-                    main: {
-                        background:
-                            theme.colorScheme === 'dark'
-                                ? theme.colors.dark[8]
-                                : theme.colors.gray[0],
-                    },
-                }}
                 navbarOffsetBreakpoint="sm"
                 asideOffsetBreakpoint="sm"
-                navbar={
-                    <Navbar
-                        p="md"
-                        hiddenBreakpoint="sm"
-                        hidden={!opened}
-                        width={{ sm: 200, lg: 300 }}
-                    >
-                        <Sidebar />
-                    </Navbar>
-                }
+                navbar={<Sidebar opened={opened} />}
                 footer={
                     <Footer height="60">
                         <Flex
                             justify="center"
                             align="center"
-                            styles={{ height: '100%' }}
+                            style={{ height: '100%' }}
                         >
                             <DataLoader />
                         </Flex>

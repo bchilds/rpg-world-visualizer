@@ -1,9 +1,14 @@
 import { useContext } from 'react';
 import { LocationContext } from '../../contexts/location.context';
+import { Navbar, Title } from '@mantine/core';
 
 import './sidebar.css';
 
-const Sidebar = () => {
+type SidebarProps = {
+    opened: boolean;
+};
+
+const Sidebar = ({ opened }: SidebarProps) => {
     const {
         worlds,
         getLocationById,
@@ -25,14 +30,22 @@ const Sidebar = () => {
         loadWorldFromCompressedString(targetWorldCompressedString);
     };
     return (
-        <div className="sidebar-container">
-            <h3>Saved Worlds</h3>
-            <button onClick={createNewWorld}>Create New World</button>
+        <Navbar
+            p="md"
+            hiddenBreakpoint="sm"
+            hidden={!opened}
+            width={{ sm: 150, md:255, lg: 300 }}
+            className='sidebar-container'
+        >
+            <Title order={2} size='h3'>Saved Worlds</Title>
+            <button onClick={createNewWorld}>New World</button>
             <ul>
                 {worldNames.map((name) => {
                     return (
                         <li
-                            className={currentWorldName === name ? 'selected' : ''}
+                            className={
+                                currentWorldName === name ? 'selected' : ''
+                            }
                             key={name}
                             onClick={() => {
                                 _onClick(worlds[name].worldTreeCompressed);
@@ -43,7 +56,7 @@ const Sidebar = () => {
                     );
                 })}
             </ul>
-        </div>
+        </Navbar>
     );
 };
 
