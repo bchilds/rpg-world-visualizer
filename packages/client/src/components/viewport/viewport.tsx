@@ -134,18 +134,6 @@ const Viewport = () => {
         setHistory([...history, worldLocation.id]);
     };
 
-    const onBack = () => {
-        const newHistory = [...history];
-        newHistory.pop();
-        setHistory(newHistory);
-
-        const nextNodeId = newHistory[newHistory.length - 1] ?? 0;
-        updateCurrentLocationState(
-            allLocations.find((loc) => loc.id === nextNodeId) ??
-                getDefaultWorldLocation()
-        );
-    };
-
     useEffect(() => {
         // handle loading of data while in viewport mode
         updateCurrentLocationState(
@@ -165,9 +153,6 @@ const Viewport = () => {
                     className="current-location"
                 />
                 <div className="controls">
-                    <button disabled={history.length === 1} onClick={onBack}>
-                        Back
-                    </button>
                     <div>
                         <input
                             type="text"

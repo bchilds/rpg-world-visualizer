@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import {
     AppShell,
     Header,
@@ -22,15 +22,19 @@ import ViewModeControls from './components/view-mode-controls/view-mode-controls
 
 function App() {
     const theme = useMantineTheme();
-    const [opened, setOpened] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [viewMode, setViewMode] = useState<ViewMode>(viewModes.viewport);
+    const hideSidebar = useCallback(() => setIsSidebarOpen(false), []);
+    const toggleSidebar = useCallback(() => setIsSidebarOpen((o) => !o), []);
 
     // todo pass setOpened into navbar for onClick close behavior
     return (
         <AppWrappers>
             <AppShell
                 navbarOffsetBreakpoint="sm"
-                navbar={<Sidebar opened={opened} />}
+                navbar={
+                    <Sidebar opened={isSidebarOpen} hideSidebar={hideSidebar} />
+                }
                 footer={
                     <Footer height="60">
                         <Flex
@@ -57,8 +61,8 @@ function App() {
                                 styles={{ display: 'none' }}
                             >
                                 <Burger
-                                    opened={opened}
-                                    onClick={() => setOpened((o) => !o)}
+                                    opened={isSidebarOpen}
+                                    onClick={toggleSidebar}
                                     size="sm"
                                     color={theme.colors.gray[6]}
                                     mr="xl"

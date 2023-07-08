@@ -6,9 +6,10 @@ import './sidebar.css';
 
 type SidebarProps = {
     opened: boolean;
+    hideSidebar: () => void;
 };
 
-const Sidebar = ({ opened }: SidebarProps) => {
+const Sidebar = ({ opened, hideSidebar }: SidebarProps) => {
     const {
         worlds,
         getLocationById,
@@ -28,6 +29,7 @@ const Sidebar = ({ opened }: SidebarProps) => {
         }
         console.log('LOADING WORLD: ', targetWorldCompressedString);
         loadWorldFromCompressedString(targetWorldCompressedString);
+        hideSidebar();
     };
     return (
         <Navbar
