@@ -6,6 +6,7 @@ export const AppWrappers = ({ children }: { children: React.ReactNode }) => {
     return (
         <MantineProvider theme={{
             colorScheme: 'dark',
+            primaryColor: 'gray',
         }} withNormalizeCSS>
             <Notifications position='top-right'/>
             <LocationProvider>{children}</LocationProvider>

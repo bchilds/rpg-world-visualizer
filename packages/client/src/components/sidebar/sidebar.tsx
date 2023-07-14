@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { LocationContext } from '../../contexts/location.context';
-import { Navbar, Title } from '@mantine/core';
+import { Button, Navbar, Title } from '@mantine/core';
 
 import './sidebar.css';
 
@@ -42,7 +42,7 @@ const Sidebar = ({ opened, hideSidebar }: SidebarProps) => {
             <Title order={2} size="h3">
                 Saved Worlds
             </Title>
-            <button onClick={createNewWorld}>New World</button>
+            <Button mt={'sm'} onClick={createNewWorld}>New World</Button>
             <ul>
                 {worldNames.map((name) => {
                     return (

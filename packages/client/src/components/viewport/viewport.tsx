@@ -8,6 +8,7 @@ import {
 import FeatureNode from '../node/feature';
 
 import './viewport.css';
+import { Button, TextInput } from '@mantine/core';
 
 const Viewport = () => {
     const {
@@ -146,37 +147,67 @@ const Viewport = () => {
         <div className="viewport">
             <div className="viewport-header">
                 <WorldNode
-                    key={`${currentLocationId}-${getLocationById(currentLocationId).name}`}
+                    key={`${currentLocationId}-${
+                        getLocationById(currentLocationId).name
+                    }`}
                     locationId={currentLocationId}
                     onSelect={() => {}}
                     onUpdate={() => {}}
                     className="current-location"
                 />
                 <div className="controls">
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="New Feature"
-                            value={newFeatureName}
-                            onChange={(e) => setNewFeatureName(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') addFeature();
-                            }}
-                        />
-                        <button onClick={addFeature}>+</button>
-                    </div>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="New Location"
-                            value={newLocationName}
-                            onChange={(e) => setNewLocationName(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') addChildLocation();
-                            }}
-                        />
-                        <button onClick={addChildLocation}>+</button>
-                    </div>
+                    <TextInput
+                        placeholder="New Feature"
+                        value={newFeatureName}
+                        onChange={(e) => setNewFeatureName(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') addFeature();
+                        }}
+                        rightSection={
+                            <Button
+                                onClick={addFeature}
+                                variant="filled"
+                                color="gray"
+                                radius="sm"
+                            >
+                                +
+                            </Button>
+                        }
+                        styles={{
+                            input: {
+                                width: '95%',
+                            },
+                            rightSection: {
+                                width: 'auto',
+                            },
+                        }}
+                    />
+                    <TextInput
+                        placeholder="New Location"
+                        value={newLocationName}
+                        onChange={(e) => setNewLocationName(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') addChildLocation();
+                        }}
+                        rightSection={
+                            <Button
+                                onClick={addChildLocation}
+                                variant="filled"
+                                color="gray"
+                                radius="sm"
+                            >
+                                +
+                            </Button>
+                        }
+                        styles={{
+                            input: {
+                                width: '95%',
+                            },
+                            rightSection: {
+                                width: 'auto',
+                            },
+                        }}
+                    />
                 </div>
                 {/* this should be done w/ react router */}
             </div>
