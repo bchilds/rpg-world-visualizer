@@ -23,9 +23,6 @@ const Viewport = () => {
     const [history, setHistory] = useState<WorldLocation['id'][]>([
         currentLocationId,
     ]);
-    const [newLocationName, setNewLocationName] = useState<string>('');
-    const [newFeatureName, setNewFeatureName] = useState<string>('');
-
     const [childLocations, setChildLocations] = useState<WorldLocation[]>(() =>
         getLocationsByIds(
             allLocations.find((loc) => loc.id === currentLocationId)
@@ -53,7 +50,7 @@ const Viewport = () => {
         );
     };
 
-    const addFeature = () => {
+    const addFeature = (newFeatureName: string) => {
         if (!newFeatureName) return;
 
         const newFeature: Feature = {
@@ -67,10 +64,9 @@ const Viewport = () => {
             ...getLocationById(currentLocationId),
             features: [...features, newFeature].map((feat) => feat.id),
         });
-        setNewFeatureName('');
     };
 
-    const addChildLocation = () => {
+    const addChildLocation = (newLocationName: string) => {
         if (!newLocationName) return;
 
         const newLocation: WorldLocation = {
@@ -87,7 +83,6 @@ const Viewport = () => {
             ...getLocationById(currentLocationId),
             childLocations: newChildLocations.map((loc) => loc.id),
         });
-        setNewLocationName('');
     };
 
     const deleteChildLocation = useCallback(

@@ -1,3 +1,4 @@
+import { Button, Group } from '@mantine/core';
 import { OverviewToolMode } from '../../types/overvew.types';
 
 import './overview-tools.css';
@@ -9,22 +10,22 @@ type OverviewToolsProps = {
 
 const OverviewTools = ({ currentMode, onClick }: OverviewToolsProps) => {
     return (
-        <div className="overview-tools">
-            <button
+        <Group className="overview-tools" spacing={'5px'}>
+            <Button
                 disabled={currentMode === 'select'}
                 onClick={() => onClick('select')}
                 className={currentMode === 'select' ? 'selected' : ''}
             >
                 Select
-            </button>
-            <button
+            </Button>
+            <Button
                 disabled={currentMode === 'reassign'}
                 onClick={() => onClick('reassign')}
                 className={currentMode === 'reassign' ? 'selected' : ''}
             >
                 Reassign
-            </button>
-        </div>
+            </Button>
+        </Group>
     );
 };
 

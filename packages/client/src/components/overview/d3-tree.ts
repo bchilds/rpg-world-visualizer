@@ -16,7 +16,7 @@ const convertToD3Tree = (
     rootNode: WorldLocation,
     findNodeById: (id: number) => WorldLocation
 ): D3TreeNode => {
-    const { id, name, description, childLocations, features } = rootNode;
+    const { id, name, childLocations, features } = rootNode;
     const d3Node: D3TreeNode = {
         name,
         attributes: {

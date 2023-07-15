@@ -4,10 +4,11 @@ import InputWithButton from '../common/input-with-button';
 import { Feature, WorldLocation } from '../../types/location.types';
 import FeatureNode from '../node/feature';
 import WorldNode from '../node/world-location';
+import { useCallback } from 'react';
 
 type DetailsProps = {
-    onAddFeature: () => void;
-    onAddLocation: () => void;
+    onAddFeature: (newFeatureName: string) => void;
+    onAddLocation: (newLocationName: string) => void;
     features: Feature[];
     childLocations: WorldLocation[];
     onSelectLocation: (location: WorldLocation) => void;
@@ -30,6 +31,16 @@ const Details = ({
     const [newLocationName, setNewLocationName] = useInputState('');
     const [newFeatureName, setNewFeatureName] = useInputState('');
 
+    const _onAddFeature = useCallback(() => {
+        onAddFeature(newFeatureName);
+        setNewFeatureName('');
+    }, [newFeatureName, onAddFeature]);
+
+    const _onAddLocation = useCallback(() => {
+        onAddLocation(newLocationName);
+        setNewLocationName('');
+    }, [newLocationName, onAddLocation]);
+
     return (
         <>
             <MediaQuery
@@ -48,11 +59,10 @@ const Details = ({
                             onChange={setNewFeatureName}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                    onAddFeature();
+                                    _onAddFeature();
                                 }
                             }}
-                            onButtonClick={onAddFeature}
-                            onClick={onAddFeature}
+                            onButtonClick={_onAddFeature}
                             variant="filled"
                             color="gray"
                             radius="sm"
@@ -72,10 +82,10 @@ const Details = ({
                             onChange={(e) => setNewLocationName(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                    onAddLocation();
+                                    _onAddLocation();
                                 }
                             }}
-                            onButtonClick={onAddLocation}
+                            onButtonClick={_onAddLocation}
                             variant="filled"
                             color="gray"
                             radius="sm"
@@ -132,11 +142,10 @@ const Details = ({
                                 onChange={setNewFeatureName}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') {
-                                        onAddFeature();
+                                        _onAddFeature();
                                     }
                                 }}
-                                onButtonClick={onAddFeature}
-                                onClick={onAddFeature}
+                                onButtonClick={_onAddFeature}
                                 variant="filled"
                                 color="gray"
                                 radius="sm"
@@ -167,10 +176,10 @@ const Details = ({
                                 }
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') {
-                                        onAddLocation();
+                                        _onAddLocation();
                                     }
                                 }}
-                                onButtonClick={onAddLocation}
+                                onButtonClick={_onAddLocation}
                                 variant="filled"
                                 color="gray"
                                 radius="sm"
