@@ -1,4 +1,4 @@
-import { Accordion, Group, MediaQuery } from '@mantine/core';
+import { Accordion, Group, MediaQuery, Stack } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import InputWithButton from '../common/input-with-button';
 import { Feature, WorldLocation } from '../../types/location.types';
@@ -40,55 +40,86 @@ const Details = ({
                     border: '8px solid pink',
                 }}
             >
-                <Group position="center" grow>
-                    <InputWithButton
-                        placeholder="New Feature"
-                        value={newFeatureName}
-                        onChange={setNewFeatureName}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                onAddFeature();
-                            }
-                        }}
-                        onButtonClick={onAddFeature}
-                        onClick={onAddFeature}
-                        variant="filled"
-                        color="gray"
-                        radius="sm"
-                        buttonText="+"
-                        styles={{
-                            input: {
-                                width: '95%',
-                            },
-                            rightSection: {
-                                width: 'auto',
-                            },
-                        }}
-                    />
-                    <InputWithButton
-                        placeholder="New Location"
-                        value={newLocationName}
-                        onChange={(e) => setNewLocationName(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                onAddLocation();
-                            }
-                        }}
-                        onButtonClick={onAddLocation}
-                        variant="filled"
-                        color="gray"
-                        radius="sm"
-                        buttonText="+"
-                        styles={{
-                            input: {
-                                width: '95%',
-                            },
-                            rightSection: {
-                                width: 'auto',
-                            },
-                        }}
-                    />
-                </Group>
+                <Stack>
+                    <Group position="center" grow>
+                        <InputWithButton
+                            placeholder="New Feature"
+                            value={newFeatureName}
+                            onChange={setNewFeatureName}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    onAddFeature();
+                                }
+                            }}
+                            onButtonClick={onAddFeature}
+                            onClick={onAddFeature}
+                            variant="filled"
+                            color="gray"
+                            radius="sm"
+                            buttonText="+"
+                            styles={{
+                                input: {
+                                    width: '95%',
+                                },
+                                rightSection: {
+                                    width: 'auto',
+                                },
+                            }}
+                        />
+                        <InputWithButton
+                            placeholder="New Location"
+                            value={newLocationName}
+                            onChange={(e) => setNewLocationName(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    onAddLocation();
+                                }
+                            }}
+                            onButtonClick={onAddLocation}
+                            variant="filled"
+                            color="gray"
+                            radius="sm"
+                            buttonText="+"
+                            styles={{
+                                input: {
+                                    width: '95%',
+                                },
+                                rightSection: {
+                                    width: 'auto',
+                                },
+                            }}
+                        />
+                    </Group>
+                    {/* temporary */}
+                    <div className="list-container">
+                        <div className="feature-list list">
+                            {features.map((feature) => (
+                                <FeatureNode
+                                    key={feature.id}
+                                    feature={feature}
+                                    onDelete={onDeleteFeature}
+                                />
+                            ))}
+                        </div>
+                        <div className="world-location-list list">
+                            {childLocations.map((location) => (
+                                <WorldNode
+                                    locationId={location.id}
+                                    key={location.id}
+                                    onSelect={() => onSelectLocation(location)}
+                                    onDelete={() => onDeleteLocation(location)}
+                                    onUpdate={function (
+                                        newLocationData: WorldLocation
+                                    ): void {
+                                        throw new Error(
+                                            'Function not implemented.'
+                                        );
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </Stack>
             </MediaQuery>
             <MediaQuery largerThan={'sm'} styles={{ display: 'none' }}>
                 <Accordion defaultValue={'feature'}>
@@ -110,23 +141,23 @@ const Details = ({
                                 color="gray"
                                 radius="sm"
                                 buttonText="+"
-                                styles={{
-                                    input: {
-                                        width: '95%',
-                                    },
-                                    rightSection: {
-                                        width: 'auto',
-                                    },
-                                }}
+                                mb={'sm'}
                             />
+                            <div className="list-container">
+                                <div className="feature-list list">
+                                    {features.map((feature) => (
+                                        <FeatureNode
+                                            key={feature.id}
+                                            feature={feature}
+                                            onDelete={onDeleteFeature}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
                         </Accordion.Panel>
                     </Accordion.Item>
                     <Accordion.Item value="location">
                         <Accordion.Control>Locations</Accordion.Control>
-                        <Accordion.Panel></Accordion.Panel>
-                    </Accordion.Item>
-                    <Accordion.Item value="characters">
-                        <Accordion.Control>Characters</Accordion.Control>
                         <Accordion.Panel>
                             <InputWithButton
                                 placeholder="New Location"
@@ -144,47 +175,39 @@ const Details = ({
                                 color="gray"
                                 radius="sm"
                                 buttonText="+"
-                                styles={{
-                                    input: {
-                                        width: '95%',
-                                    },
-                                    rightSection: {
-                                        width: 'auto',
-                                    },
-                                }}
+                                mb={'sm'}
                             />
+                            <div className="list-container">
+                                <div className="world-location-list list">
+                                    {childLocations.map((location) => (
+                                        <WorldNode
+                                            locationId={location.id}
+                                            key={location.id}
+                                            onSelect={() =>
+                                                onSelectLocation(location)
+                                            }
+                                            onDelete={() =>
+                                                onDeleteLocation(location)
+                                            }
+                                            onUpdate={function (
+                                                newLocationData: WorldLocation
+                                            ): void {
+                                                throw new Error(
+                                                    'Function not implemented.'
+                                                );
+                                            }}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
                         </Accordion.Panel>
+                    </Accordion.Item>
+                    <Accordion.Item value="characters">
+                        <Accordion.Control>Characters</Accordion.Control>
+                        <Accordion.Panel></Accordion.Panel>
                     </Accordion.Item>
                 </Accordion>
             </MediaQuery>
-
-            {/* temporary */}
-            <div className="list-container">
-                <div className="feature-list list">
-                    {features.map((feature) => (
-                        <FeatureNode
-                            key={feature.id}
-                            feature={feature}
-                            onDelete={onDeleteFeature}
-                        />
-                    ))}
-                </div>
-                <div className="world-location-list list">
-                    {childLocations.map((location) => (
-                        <WorldNode
-                            locationId={location.id}
-                            key={location.id}
-                            onSelect={() => onSelectLocation(location)}
-                            onDelete={() => onDeleteLocation(location)}
-                            onUpdate={function (
-                                newLocationData: WorldLocation
-                            ): void {
-                                throw new Error('Function not implemented.');
-                            }}
-                        />
-                    ))}
-                </div>
-            </div>
         </>
     );
 };

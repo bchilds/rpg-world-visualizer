@@ -11,24 +11,15 @@ type InputWithButtonProps = {
 const InputWithButton = ({
   buttonText,
   onButtonClick,
-  value,
-  onChange,
-  label,
-  placeholder,
-  onKeyDown,
-  error,
-  rightSectionWidth,
   loading = false,
-  variant,
+  styles,
   color,
   radius,
+  variant,
+  ...rest
 }: InputWithButtonProps) => {
   return (
     <TextInput
-      label={label}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
       rightSection={
         <Button
           loading={loading}
@@ -48,10 +39,9 @@ const InputWithButton = ({
           width: "auto",
           position: "relative",
         },
+        ...styles,
       }}
-      error={error}
-      onKeyDown={onKeyDown}
-      rightSectionWidth={rightSectionWidth}
+      {...rest}
     />
   );
 };
