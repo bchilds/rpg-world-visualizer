@@ -5,10 +5,8 @@ import {
     getDefaultWorldLocation,
     useLocationContext,
 } from '../../contexts/location.context';
-import FeatureNode from '../node/feature';
-
-import './viewport.css';
-import { Button, TextInput } from '@mantine/core';
+import Details from './details';
+import { Space } from '@mantine/core';
 
 const Viewport = () => {
     const {
@@ -155,89 +153,17 @@ const Viewport = () => {
                     onUpdate={() => {}}
                     className="current-location"
                 />
-                <div className="controls">
-                    <TextInput
-                        placeholder="New Feature"
-                        value={newFeatureName}
-                        onChange={(e) => setNewFeatureName(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') addFeature();
-                        }}
-                        rightSection={
-                            <Button
-                                onClick={addFeature}
-                                variant="filled"
-                                color="gray"
-                                radius="sm"
-                            >
-                                +
-                            </Button>
-                        }
-                        styles={{
-                            input: {
-                                width: '95%',
-                            },
-                            rightSection: {
-                                width: 'auto',
-                            },
-                        }}
-                    />
-                    <TextInput
-                        placeholder="New Location"
-                        value={newLocationName}
-                        onChange={(e) => setNewLocationName(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') addChildLocation();
-                        }}
-                        rightSection={
-                            <Button
-                                onClick={addChildLocation}
-                                variant="filled"
-                                color="gray"
-                                radius="sm"
-                            >
-                                +
-                            </Button>
-                        }
-                        styles={{
-                            input: {
-                                width: '95%',
-                            },
-                            rightSection: {
-                                width: 'auto',
-                            },
-                        }}
-                    />
-                </div>
-                {/* this should be done w/ react router */}
             </div>
-            <div className="list-container">
-                {/* move controls into respective list */}
-                <div className="feature-list list">
-                    {features.map((feature) => (
-                        <FeatureNode
-                            key={feature.id}
-                            feature={feature}
-                            onDelete={deleteFeature}
-                        />
-                    ))}
-                </div>
-                <div className="world-location-list list">
-                    {childLocations.map((location) => (
-                        <WorldNode
-                            locationId={location.id}
-                            key={location.id}
-                            onSelect={() => onSelectNode(location)}
-                            onDelete={() => deleteChildLocation(location)}
-                            onUpdate={function (
-                                newLocationData: WorldLocation
-                            ): void {
-                                throw new Error('Function not implemented.');
-                            }}
-                        />
-                    ))}
-                </div>
-            </div>
+            <Space h="md" />
+            <Details
+                onAddFeature={addFeature}
+                onAddLocation={addChildLocation}
+                onDeleteFeature={deleteFeature}
+                onDeleteLocation={deleteChildLocation}
+                features={features}
+                childLocations={childLocations}
+                onSelectLocation={onSelectNode}
+            />
         </div>
     );
 };

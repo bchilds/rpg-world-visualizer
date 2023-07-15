@@ -65,7 +65,7 @@ function App() {
                                     onClick={toggleSidebar}
                                     size="sm"
                                     color={theme.colors.gray[6]}
-                                    mr="xl"
+                                    mr="sm"
                                 />
                             </MediaQuery>
                             <div

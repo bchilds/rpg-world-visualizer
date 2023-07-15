@@ -42,7 +42,17 @@ const Sidebar = ({ opened, hideSidebar }: SidebarProps) => {
             <Title order={2} size="h3">
                 Saved Worlds
             </Title>
-            <Button mt={'sm'} onClick={createNewWorld}>New World</Button>
+            <Button
+                mt={'sm'}
+                onClick={createNewWorld}
+                styles={{
+                    root: {
+                        textSizeAdjust: 'auto',
+                    },
+                }}
+            >
+                New World
+            </Button>
             <ul>
                 {worldNames.map((name) => {
                     return (

@@ -3,6 +3,7 @@ import { generateCompressedString } from '../../services/data-loader';
 import { useCopyToClipboard } from '../../hooks/use-copy-to-clipboard';
 import { createNotification } from '../notifications/notification-manager';
 import { COLORS } from '../../styles/colors';
+import { Button } from '@mantine/core';
 
 const COPY_TEXT = 'Copy World URL';
 const COPY_MESSAGE = 'Copied world URL to clipboard!';
@@ -39,7 +40,7 @@ const DataLoader = () => {
         });
     };
 
-    return <button onClick={onGenerate}>{COPY_TEXT}</button>;
+    return <Button onClick={onGenerate}>{COPY_TEXT}</Button>;
 };
 
 export default DataLoader;
