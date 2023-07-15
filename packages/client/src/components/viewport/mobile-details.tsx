@@ -1,4 +1,4 @@
-import { MediaQuery, Accordion } from '@mantine/core';
+import { Text, MediaQuery, Accordion, Badge, Group } from '@mantine/core';
 import { WorldLocation } from '../../types/location.types';
 import InputWithButton from '../common/input-with-button';
 import FeatureNode from '../node/feature';
@@ -23,7 +23,12 @@ const MobileDetails = (props: SubDetailsProps) => {
         <MediaQuery largerThan={'sm'} styles={{ display: 'none' }}>
             <Accordion defaultValue={'feature'}>
                 <Accordion.Item value="feature">
-                    <Accordion.Control>Features</Accordion.Control>
+                    <Accordion.Control>
+                        <Group>
+                            <Text>Features</Text>
+                            <Badge variant="filled">{features.length}</Badge>
+                        </Group>
+                    </Accordion.Control>
                     <Accordion.Panel>
                         <InputWithButton
                             placeholder="New Feature"
@@ -55,7 +60,14 @@ const MobileDetails = (props: SubDetailsProps) => {
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item value="location">
-                    <Accordion.Control>Locations</Accordion.Control>
+                    <Accordion.Control>
+                        <Group>
+                            <Text>Locations</Text>
+                            <Badge variant="filled">
+                                {childLocations.length}
+                            </Badge>
+                        </Group>
+                    </Accordion.Control>
                     <Accordion.Panel>
                         <InputWithButton
                             placeholder="New Location"
@@ -99,7 +111,12 @@ const MobileDetails = (props: SubDetailsProps) => {
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item value="characters">
-                    <Accordion.Control>Characters</Accordion.Control>
+                    <Accordion.Control>
+                        <Group>
+                            <Text>Characters</Text>
+                            <Badge variant="filled">x</Badge>
+                        </Group>
+                    </Accordion.Control>
                     <Accordion.Panel></Accordion.Panel>
                 </Accordion.Item>
             </Accordion>

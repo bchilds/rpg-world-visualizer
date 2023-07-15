@@ -95,8 +95,6 @@ export const WorldNode = ({
                     placeholder="Location Description"
                     onKeyDown={handleEnter}
                 />
-                <p>Child Locations: {childLocations.length}</p>
-                <p>Features: {features.length}</p>
                 {isDirty && (
                     <SaveControls onSave={onSave} onCancel={onCancel} />
                 )}
