@@ -22,7 +22,8 @@ const DataLoader = () => {
         createNotification({
             message: COPY_MESSAGE,
             color: 'gray',
-            autoClose: 3000,
+            autoClose: 2000,
+            withCloseButton: true,
             styles: {
                 root: {
                     backgroundColor: COLORS.lightBackground,
@@ -35,6 +36,9 @@ const DataLoader = () => {
                     padding: '0.5rem',
                     color: COLORS.fontColor,
                     fontSize: '1rem',
+                },
+                closeButton: {
+                    color: COLORS.fontColor,
                 },
             },
         });

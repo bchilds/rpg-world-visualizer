@@ -22,7 +22,7 @@ export const createNotification = ({
     color,
     radius,
     withCloseButton = false,
-    autoClose = 2000,
+    autoClose = 1000,
     withBorder = true,
     styles,
 }: NotificationProps) =>

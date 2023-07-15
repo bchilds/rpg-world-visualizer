@@ -8,7 +8,8 @@
         "start:dev": "pnpm --parallel --stream -r run start:dev",
         "start:client": "pnpm --stream --filter ./packages/client run dev",
         "build": "pnpm --stream -r run build",
-        "clean": "rm -rf .parcel-cache && pnpm -r run clean"
+        "clean": "rm -rf .parcel-cache && pnpm -r run clean",
+        "deploy": "./deploy.sh"
     },
     "keywords": [],
     "author": "Benjamin T. Childs <benjamin.t.childs@gmail.com>",
