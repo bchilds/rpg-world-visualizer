@@ -7,6 +7,7 @@ import {
 } from '../../contexts/location.context';
 import Details from './details';
 import { Space } from '@mantine/core';
+import { getCurrentWorldName } from '../../services/local-storage-api';
 
 const Viewport = () => {
     const {
@@ -20,6 +21,7 @@ const Viewport = () => {
         getLocationById,
         updateLocation,
     } = useLocationContext();
+    const currentWorldName = getCurrentWorldName();
     const [history, setHistory] = useState<WorldLocation['id'][]>([
         currentLocationId,
     ]);
@@ -133,7 +135,7 @@ const Viewport = () => {
                 nextLocation.features?.includes(feat.id)
             )
         );
-    }, [currentLocationId])
+    }, [currentLocationId, currentWorldName])
 
     return (
         <div className="viewport">

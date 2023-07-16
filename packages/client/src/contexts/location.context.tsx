@@ -106,6 +106,7 @@ export const LocationProvider = ({
         setAllLocations([defaultLocation]);
         setAllFeatures([]);
         setCurrentLocationId(defaultLocation.id);
+        setCurrentWorld(defaultLocation.name);
     }, [setAllFeatures, setAllLocations, setCurrentLocationId]);
 
     // loads the world tree from compressed string data

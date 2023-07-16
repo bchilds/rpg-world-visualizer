@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { LocationContext } from '../../contexts/location.context';
+import { LocationContext, getDefaultWorldLocation } from '../../contexts/location.context';
 import { Button, Navbar, Stack, Title } from '@mantine/core';
 
 type SidebarProps = {
@@ -43,7 +43,7 @@ const Sidebar = ({ opened, hideSidebar }: SidebarProps) => {
                 Saved Worlds
             </Title>
             <Stack spacing={'sm'}>
-                <Button mt={'sm'} mb={'sm'} onClick={createNewWorld}>
+                <Button mt={'sm'} mb={'sm'} onClick={createNewWorld} color={currentWorldName === getDefaultWorldLocation().name ? 'green' : 'default'}>
                     New World
                 </Button>
                 {worldNames.map((name) => {
