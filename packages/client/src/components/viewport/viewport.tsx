@@ -6,7 +6,7 @@ import {
     useLocationContext,
 } from '../../contexts/location.context';
 import Details from './details';
-import { Space } from '@mantine/core';
+import { Box, Space, Text } from '@mantine/core';
 import { getCurrentWorldName } from '../../services/local-storage-api';
 
 const Viewport = () => {
@@ -15,8 +15,10 @@ const Viewport = () => {
         setCurrentLocationId,
         allLocations,
         allFeatures,
+        allCharacters,
         setAllLocations,
         setAllFeatures,
+        setAllCharacters,
         getLocationsByIds,
         getLocationById,
         updateLocation,
@@ -37,6 +39,15 @@ const Viewport = () => {
         );
         return allFeatures.filter((feat) =>
             currentLocation?.features?.includes(feat.id)
+        );
+    });
+
+    const [characters, setCharacters] = useState<Feature[]>(() => {
+        const currentLocation = allLocations.find(
+            (loc) => loc.id === currentLocationId
+        );
+        return allCharacters.filter((char) =>
+            currentLocation?.characters?.includes(char.id)
         );
     });
 
@@ -65,6 +76,7 @@ const Viewport = () => {
             description: '',
             childLocations: [],
             features: [],
+            characters: [],
         };
         const newChildLocations = [...childLocations, newLocation];
         setChildLocations(newChildLocations);
@@ -120,35 +132,36 @@ const Viewport = () => {
 
     useEffect(() => {
         // handle loading of world while in viewport mode
-        const location = allLocations.find((loc) => loc.id === currentLocationId) ?? getDefaultWorldLocation();
+        const location =
+            allLocations.find((loc) => loc.id === currentLocationId) ??
+            getDefaultWorldLocation();
         setCurrentLocationId(location.id);
     }, [allLocations]);
 
     useEffect(() => {
         // currentLocationId can change from other places, so this is a way to keep the state in sync regardless of how it changes
         const nextLocation = getLocationById(currentLocationId);
-        setChildLocations(
-            getLocationsByIds(nextLocation.childLocations ?? [])
-        );
+        setChildLocations(getLocationsByIds(nextLocation.childLocations ?? []));
         setFeatures(
             allFeatures.filter((feat) =>
                 nextLocation.features?.includes(feat.id)
             )
         );
-    }, [currentLocationId, currentWorldName])
+    }, [currentLocationId, currentWorldName]);
 
     return (
-        <div className="viewport">
-            <div className="viewport-header">
-                <WorldNode
-                    key={`${currentLocationId}-${
-                        getLocationById(currentLocationId).name
-                    }`}
-                    locationId={currentLocationId}
-                    onSelect={() => {}}
-                    onUpdate={() => {}}
-                />
-            </div>
+        <Box>
+            <Text mb='md'>
+                Add features to describe a location, or child locations.
+            </Text>
+            <WorldNode
+                key={`${currentLocationId}-${
+                    getLocationById(currentLocationId).name
+                }`}
+                locationId={currentLocationId}
+                onSelect={() => {}}
+                onUpdate={() => {}}
+            />
             <Space h="md" />
             <Details
                 onAddFeature={addFeature}
@@ -159,7 +172,7 @@ const Viewport = () => {
                 childLocations={childLocations}
                 onSelectLocation={onSelectNode}
             />
-        </div>
+        </Box>
     );
 };
 

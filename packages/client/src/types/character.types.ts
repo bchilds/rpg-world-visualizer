@@ -5,6 +5,9 @@ export type Character = {
   name: string;
   description?: string;
   locations: WorldLocation['id'][];
+  locationNotes: {
+    [locationId: WorldLocation['id']]: string;
+  };
   stats: unknown;
   loot: unknown;
 };

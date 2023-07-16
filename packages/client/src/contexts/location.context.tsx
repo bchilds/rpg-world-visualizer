@@ -20,6 +20,7 @@ import {
     generateCompressedString,
     loadDataFromCompressedString,
 } from '../services/data-loader';
+import { Character } from '../types/character.types';
 
 export const getDefaultWorldLocation = (): WorldLocation => ({
     id: 0,
@@ -27,6 +28,7 @@ export const getDefaultWorldLocation = (): WorldLocation => ({
     description: 'The world',
     childLocations: [],
     features: [],
+    characters: [],
 });
 
 type LocationContextType = {
@@ -36,8 +38,10 @@ type LocationContextType = {
     >;
     allLocations: WorldLocation[];
     allFeatures: Feature[];
+    allCharacters: Character[];
     setAllLocations: React.Dispatch<React.SetStateAction<WorldLocation[]>>;
     setAllFeatures: React.Dispatch<React.SetStateAction<Feature[]>>;
+    setAllCharacters: React.Dispatch<React.SetStateAction<Character[]>>;
     getLocationById: (locationId: WorldLocation['id']) => WorldLocation;
     getLocationsByIds: (locationIds: WorldLocation['id'][]) => WorldLocation[];
     updateLocation: (location: WorldLocation) => void;
@@ -68,9 +72,11 @@ export const LocationContext = createContext<LocationContextType>({
     setCurrentLocationId: () => {},
     allLocations: initialWorldLoad?.allLocations ?? [getDefaultWorldLocation()],
     allFeatures: initialWorldLoad?.allFeatures ?? [],
+    allCharacters: initialWorldLoad?.allCharacters ?? [],
     worlds: {},
     setAllLocations: () => {},
     setAllFeatures: () => {},
+    setAllCharacters: () => {},
     getLocationById: () => getDefaultWorldLocation(),
     getLocationsByIds: () => [],
     updateLocation: () => {},
@@ -98,6 +104,9 @@ export const LocationProvider = ({
     });
     const [allFeatures, setAllFeatures] = useState<Feature[]>(() => {
         return initialWorldLoad?.allFeatures ?? [];
+    });
+    const [allCharacters, setAllCharacters] = useState<Character[]>(() => {
+        return initialWorldLoad?.allCharacters ?? [];
     });
     const [currentLocationId, setCurrentLocationId] = useState(0);
 
@@ -132,6 +141,7 @@ export const LocationProvider = ({
         const data = {
             allLocations,
             allFeatures,
+            allCharacters,
         };
         const compressedString = generateCompressedString(data);
         return compressedString;
@@ -248,8 +258,10 @@ export const LocationProvider = ({
             setCurrentLocationId,
             allLocations,
             allFeatures,
+            allCharacters,
             setAllLocations,
             setAllFeatures,
+            setAllCharacters,
             getLocationsByIds,
             getLocationById,
             updateLocation,
@@ -265,8 +277,10 @@ export const LocationProvider = ({
             setCurrentLocationId,
             allLocations,
             allFeatures,
+            allCharacters,
             setAllLocations,
             setAllFeatures,
+            setAllCharacters,
             getLocationsByIds,
             getLocationById,
             updateLocation,

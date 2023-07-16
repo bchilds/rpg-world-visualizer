@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
     AppShell,
     Header,
@@ -7,8 +7,7 @@ import {
     Burger,
     useMantineTheme,
     Title,
-    Flex,
-    Text,
+    Flex
 } from '@mantine/core';
 import { AppWrappers } from './app-wrappers';
 import DataLoader from './components/data-loader/data-loader';
@@ -116,20 +115,12 @@ function App() {
                 }}
             >
                 <div className="content-container">
-                    <Text>
-                        Add features to describe a location, or child locations.
-                    </Text>
-
-                    <Fragment>
-                        {viewMode === viewModes.viewport && <Viewport />}
-                        {viewMode === viewModes.overview && (
-                            <Overview
-                                onNodeSelect={() =>
-                                    setViewMode(viewModes.viewport)
-                                }
-                            />
-                        )}
-                    </Fragment>
+                    {viewMode === viewModes.viewport && <Viewport />}
+                    {viewMode === viewModes.overview && (
+                        <Overview
+                            onNodeSelect={() => setViewMode(viewModes.viewport)}
+                        />
+                    )}
                 </div>
             </AppShell>
         </AppWrappers>

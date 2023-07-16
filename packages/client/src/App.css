@@ -6,7 +6,6 @@
 }
 
 .content-container {
-    /* needs alternate behavior for small screens */
     padding: 1rem;
     padding-top: 0;
     gap: 1rem;
