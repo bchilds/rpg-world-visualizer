@@ -11,9 +11,10 @@ import convertToD3Tree from '../components/overview/d3-tree';
 import { LocalStorageWorldsMap } from '../types/local-storage.types';
 import {
     addOrUpdateWorld,
-    getCurrentWorld, getWorlds,
+    getCurrentWorld,
+    getWorlds,
     removeWorld,
-    setCurrentWorld
+    setCurrentWorld,
 } from '../services/local-storage-api';
 import {
     generateCompressedString,
@@ -48,11 +49,25 @@ type LocationContextType = {
     createNewWorld: () => void;
 };
 
+let initialWorldLoad: ReturnType<typeof loadDataFromCompressedString>;
+    const currentWorldCompressed = getCurrentWorld();
+    if (window.location.hash || currentWorldCompressed) {
+        // prefer hash over local storage
+        const compressedString =
+            window.location.hash.slice(1) ||
+            currentWorldCompressed.worldTreeCompressed;
+        initialWorldLoad = loadDataFromCompressedString(compressedString);
+        if (initialWorldLoad) {
+            setCurrentWorld(initialWorldLoad.allLocations[0].name);
+        }
+        window.location.hash = '';
+    }
+
 export const LocationContext = createContext<LocationContextType>({
     currentLocationId: 0,
     setCurrentLocationId: () => {},
-    allLocations: [getDefaultWorldLocation()],
-    allFeatures: [],
+    allLocations: initialWorldLoad?.allLocations ?? [getDefaultWorldLocation()],
+    allFeatures: initialWorldLoad?.allFeatures ?? [],
     worlds: {},
     setAllLocations: () => {},
     setAllFeatures: () => {},
@@ -72,16 +87,17 @@ export const LocationProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
+
     const [worlds, setWorlds] = useState<LocalStorageWorldsMap>(() => {
         const storageWorlds = getWorlds();
         return storageWorlds;
     });
     const [allLocations, setAllLocations] = useState<WorldLocation[]>(() => {
         const defaultLocation = getDefaultWorldLocation();
-        return [defaultLocation];
+        return initialWorldLoad?.allLocations ?? [defaultLocation];
     });
     const [allFeatures, setAllFeatures] = useState<Feature[]>(() => {
-        return [];
+        return initialWorldLoad?.allFeatures ?? [];
     });
     const [currentLocationId, setCurrentLocationId] = useState(0);
 
@@ -203,21 +219,6 @@ export const LocationProvider = ({
         },
         [getLocationById]
     );
-
-    // side-effects based on data changes
-    // initial string load
-    useEffect(() => {
-        const currentWorldCompressed = getCurrentWorld();
-        if (window.location.hash || currentWorldCompressed) {
-            // prefer hash over local storage
-            const compressedString =
-                window.location.hash.slice(1) ||
-                currentWorldCompressed.worldTreeCompressed;
-            loadWorldFromCompressedString(compressedString);
-
-            window.location.hash = '';
-        }
-    }, []);
 
     // generate new compressed string for current world on data change
     useEffect(() => {
