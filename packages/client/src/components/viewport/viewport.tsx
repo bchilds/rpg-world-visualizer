@@ -146,7 +146,6 @@ const Viewport = () => {
                     locationId={currentLocationId}
                     onSelect={() => {}}
                     onUpdate={() => {}}
-                    className="current-location"
                 />
             </div>
             <Space h="md" />
