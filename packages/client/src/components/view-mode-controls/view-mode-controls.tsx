@@ -1,7 +1,6 @@
 import React from 'react';
 import { ViewMode, viewModes } from '../../types/view-modes.types';
-import './view-mode-controls.css';
-import { Button } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 
 type ViewModeControlsProps = {
     onClick: React.Dispatch<React.SetStateAction<ViewMode>>;
@@ -10,20 +9,22 @@ type ViewModeControlsProps = {
 
 const ViewModeControls = ({ onClick, viewMode }: ViewModeControlsProps) => {
     return (
-        <div className="view-mode-controls">
+        <Group spacing={'xs'}>
             <Button
+                color={viewMode === 'viewport' ? 'green' : 'default'}
                 onClick={() => onClick(viewModes.viewport)}
                 className={viewMode === 'viewport' ? 'selected' : ''}
             >
                 Viewport
             </Button>
             <Button
+                color={viewMode === 'overview' ? 'green' : 'default'}
                 onClick={() => onClick(viewModes.overview)}
                 className={viewMode === 'overview' ? 'selected' : ''}
             >
                 Overview
             </Button>
-        </div>
+        </Group>
     );
 };
 
