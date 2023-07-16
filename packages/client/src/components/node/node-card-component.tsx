@@ -17,7 +17,9 @@ const NodeCardComponent = ({
 }: NodeCardComponentProps) => {
     const [confirm, toggleConfirm] = useToggle([false, true]); // defaults to false I think
     const closeButtonRef = useClickOutside(() => {
-        toggleConfirm();
+        if (confirm) {
+            toggleConfirm();
+        }
     });
 
     const _onSelect = useCallback(() => {

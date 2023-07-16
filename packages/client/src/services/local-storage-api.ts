@@ -12,8 +12,14 @@ export const setCurrentWorld = (worldName: string) => {
     localStorage.setItem(CURRENT_WORLD_KEY, worldName);
 };
 
+export const getCurrentWorldName = () => {
+    return localStorage.getItem(CURRENT_WORLD_KEY) ?? '';
+};
+
 export const getCurrentWorld = () => {
-    return localStorage.getItem(CURRENT_WORLD_KEY);
+    const currentWorldName = getCurrentWorldName();
+    const worldCompressed = getCompressedWorldByName(currentWorldName);
+    return worldCompressed;
 };
 
 export const getWorlds = (): LocalStorageWorldsMap => {

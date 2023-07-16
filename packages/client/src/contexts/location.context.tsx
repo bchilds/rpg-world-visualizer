@@ -11,9 +11,9 @@ import convertToD3Tree from '../components/overview/d3-tree';
 import { LocalStorageWorldsMap } from '../types/local-storage.types';
 import {
     addOrUpdateWorld,
-    getWorlds,
+    getCurrentWorld, getWorlds,
     removeWorld,
-    setCurrentWorld,
+    setCurrentWorld
 } from '../services/local-storage-api';
 import {
     generateCompressedString,
@@ -104,6 +104,7 @@ export const LocationProvider = ({
 
                 setAllLocations(newAllLocations);
                 setAllFeatures(newAllFeatures);
+                setCurrentWorld(data.allLocations[0].name);
             }
         },
         [allLocations, allFeatures]
@@ -169,6 +170,7 @@ export const LocationProvider = ({
                     removeWorld(worldWithSameName.name);
                 }
                 addOrUpdateWorld(location.name, '');
+                setCurrentWorld(location.name);
 
                 const newWorlds = getWorlds();
                 setWorlds(newWorlds);
@@ -205,11 +207,13 @@ export const LocationProvider = ({
     // side-effects based on data changes
     // initial string load
     useEffect(() => {
-        if (window.location.hash) {
-            const compressedString = window.location.hash.slice(1);
+        const currentWorldCompressed = getCurrentWorld();
+        if (window.location.hash || currentWorldCompressed) {
+            // prefer hash over local storage
+            const compressedString =
+                window.location.hash.slice(1) ||
+                currentWorldCompressed.worldTreeCompressed;
             loadWorldFromCompressedString(compressedString);
-            setCurrentWorld(compressedString);
-
 
             window.location.hash = '';
         }
