@@ -1,27 +1,42 @@
-import { Button, Group } from '@mantine/core';
+import { Button, Group, MantineTheme } from '@mantine/core';
 import { OverviewToolMode } from '../../types/overvew.types';
-
-import './overview-tools.css';
 
 type OverviewToolsProps = {
     currentMode: OverviewToolMode;
     onClick: (mode: OverviewToolMode) => void;
 };
 
+const sx = (theme: MantineTheme) => ({
+    '&[data-disabled]': {
+        background: theme.colors.green[8],
+        color: 'white',
+        cursor: 'default',
+    },
+});
+
 const OverviewTools = ({ currentMode, onClick }: OverviewToolsProps) => {
     return (
-        <Group className="overview-tools" spacing={'5px'}>
+        <Group
+            spacing={'5px'}
+            style={{
+                position: 'absolute',
+                padding: '10px',
+                right: '0',
+                background: '#777',
+            }}
+        >
             <Button
+                color={currentMode === 'select' ? 'green' : 'default'}
                 disabled={currentMode === 'select'}
                 onClick={() => onClick('select')}
-                className={currentMode === 'select' ? 'selected' : ''}
+                sx={sx}
             >
                 Select
             </Button>
             <Button
+                color={currentMode === 'reassign' ? 'green' : 'default'}
                 disabled={currentMode === 'reassign'}
                 onClick={() => onClick('reassign')}
-                className={currentMode === 'reassign' ? 'selected' : ''}
             >
                 Reassign
             </Button>

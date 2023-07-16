@@ -1,8 +1,6 @@
 import { useContext } from 'react';
 import { LocationContext } from '../../contexts/location.context';
-import { Button, Navbar, Title } from '@mantine/core';
-
-import './sidebar.css';
+import { Button, Navbar, Stack, Title } from '@mantine/core';
 
 type SidebarProps = {
     opened: boolean;
@@ -37,28 +35,19 @@ const Sidebar = ({ opened, hideSidebar }: SidebarProps) => {
             hiddenBreakpoint="sm"
             hidden={!opened}
             width={{ sm: 150, md: 255, lg: 300 }}
-            className="sidebar-container"
         >
             <Title order={2} size="h3">
                 Saved Worlds
             </Title>
-            <Button
-                mt={'sm'}
-                onClick={createNewWorld}
-                styles={{
-                    root: {
-                        textSizeAdjust: 'auto',
-                    },
-                }}
-            >
-                New World
-            </Button>
-            <ul>
+            <Stack spacing={'sm'}>
+                <Button mt={'sm'} mb={'sm'} onClick={createNewWorld}>
+                    New World
+                </Button>
                 {worldNames.map((name) => {
                     return (
-                        <li
-                            className={
-                                currentWorldName === name ? 'selected' : ''
+                        <Button
+                            color={
+                                currentWorldName === name ? 'green' : 'default'
                             }
                             key={name}
                             onClick={() => {
@@ -66,10 +55,10 @@ const Sidebar = ({ opened, hideSidebar }: SidebarProps) => {
                             }}
                         >
                             {name}
-                        </li>
+                        </Button>
                     );
                 })}
-            </ul>
+            </Stack>
         </Navbar>
     );
 };

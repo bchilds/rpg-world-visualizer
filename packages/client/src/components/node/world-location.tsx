@@ -1,10 +1,8 @@
 import { useCallback, useState } from 'react';
+import { TextInput, Textarea } from '@mantine/core';
 import { WorldLocation } from '../../types/location.types';
 import { useLocationContext } from '../../contexts/location.context';
 import SaveControls from './save-controls';
-
-import './node.css';
-import { TextInput, Textarea } from '@mantine/core';
 import NodeCardComponent from './node-card-component';
 
 type WorldNodeProps = {

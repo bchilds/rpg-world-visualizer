@@ -10,15 +10,14 @@ import {
     Flex,
     Text,
 } from '@mantine/core';
-
 import { AppWrappers } from './app-wrappers';
 import DataLoader from './components/data-loader/data-loader';
 import Overview from './components/overview/overview';
 import Viewport from './components/viewport/viewport';
-import './App.css';
 import Sidebar from './components/sidebar/sidebar';
 import { ViewMode, viewModes } from './types/view-modes.types';
 import ViewModeControls from './components/view-mode-controls/view-mode-controls';
+import './App.css';
 
 function App() {
     const theme = useMantineTheme();
