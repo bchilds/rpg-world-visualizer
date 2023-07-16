@@ -1,4 +1,4 @@
-import './node.css';
+import { Button, Group } from '@mantine/core';
 
 type SaveControlProps = {
     onSave: () => void;
@@ -7,26 +7,25 @@ type SaveControlProps = {
 
 const SaveControls = ({ onSave, onCancel }: SaveControlProps) => {
     return (
-        <div className="save-controls">
-            <button
+        <Group position="center">
+            <Button
+                color="green"
                 onClick={(e) => {
                     e.stopPropagation();
-                    console.log('save');
                     onSave();
                 }}
             >
                 Save
-            </button>
-            <button
+            </Button>
+            <Button
                 onClick={(e) => {
                     e.stopPropagation();
-                    console.log('cancel');
                     onCancel();
                 }}
             >
                 Cancel
-            </button>
-        </div>
+            </Button>
+        </Group>
     );
 };
 

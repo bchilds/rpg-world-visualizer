@@ -4,24 +4,26 @@ import { useLocationContext } from '../../contexts/location.context';
 import SaveControls from './save-controls';
 
 import './node.css';
+import { TextInput, Textarea } from '@mantine/core';
+import NodeCardComponent from './node-card-component';
 
 type WorldNodeProps = {
     locationId: WorldLocation['id'];
     onSelect: () => void;
     onDelete?: () => void;
     onUpdate: (newLocationData: WorldLocation) => void;
-    className?: string;
+    isCurrentLocation?: boolean;
 };
 
 export const WorldNode = ({
     locationId,
     onSelect,
     onDelete,
-    className = '',
+    isCurrentLocation = false,
 }: WorldNodeProps) => {
     const { getLocationById, updateLocation } = useLocationContext();
     const location = getLocationById(locationId);
-    const { name, description = '', childLocations, features } = location;
+    const { name, description = '' } = location;
     const [nodeName, setNodeName] = useState<string>(name);
     const [nodeDescription, setNodeDescription] = useState<string>(description);
     const [isDirty, setIsDirty] = useState<boolean>(false);
@@ -56,50 +58,38 @@ export const WorldNode = ({
     }, [name, description]);
 
     return (
-        <div className={`worldnode-container ${className}`} onClick={onSelect}>
-            {onDelete && (
-                <button
-                    className="worldnode-action delete-node"
-                    onClick={(e: React.SyntheticEvent) => {
-                        //  make close component w/ confirm as double click
-                        e.stopPropagation();
-                        console.log(`deleting node: ${name}`);
-                        onDelete();
-                    }}
-                >
-                    x
-                </button>
-            )}
-            <div className="content">
-                <input
-                    onClick={(e) => {
-                        e.stopPropagation();
-                    }}
-                    value={nodeName}
-                    onChange={(e) => {
-                        setIsDirty(true);
-                        setNodeName(e.target.value);
-                    }}
-                    placeholder="Location Name"
-                    onKeyDown={handleEnter}
-                />
-                <textarea
-                    onClick={(e) => {
-                        e.stopPropagation();
-                    }}
-                    value={nodeDescription}
-                    onChange={(e) => {
-                        setIsDirty(true);
-                        setNodeDescription(e.target.value);
-                    }}
-                    placeholder="Location Description"
-                    onKeyDown={handleEnter}
-                />
-                {isDirty && (
-                    <SaveControls onSave={onSave} onCancel={onCancel} />
-                )}
-            </div>
-        </div>
+        <NodeCardComponent
+            onSelect={onSelect}
+            onDelete={onDelete}
+            isCurrentLocation={isCurrentLocation}
+        >
+            <TextInput
+                value={nodeName}
+                onChange={(e) => {
+                    setIsDirty(true);
+                    setNodeName(e.target.value);
+                }}
+                placeholder="Location Name"
+                onKeyDown={handleEnter}
+                onClick={(e) => {
+                    e.stopPropagation();
+                }}
+            />
+            <Textarea
+                autosize
+                value={nodeDescription}
+                onChange={(e) => {
+                    setIsDirty(true);
+                    setNodeDescription(e.target.value);
+                }}
+                placeholder="Location Description"
+                onKeyDown={handleEnter}
+                onClick={(e) => {
+                    e.stopPropagation();
+                }}
+            />
+            {isDirty && <SaveControls onSave={onSave} onCancel={onCancel} />}
+        </NodeCardComponent>
     );
 };
 
