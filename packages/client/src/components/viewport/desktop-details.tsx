@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react';
-import { MediaQuery, Tabs, Badge } from '@mantine/core';
+import { MediaQuery, Tabs, Badge, Stack } from '@mantine/core';
 import { WorldLocation } from '../../types/location.types';
 import InputWithButton from '../common/input-with-button';
 import FeatureNode from '../node/feature';
@@ -94,17 +94,15 @@ const LargeDetails = (props: SubDetailsProps) => {
                         styles={inputWButtonStyles}
                         mb="xs"
                     />
-                    <div className="list-container">
-                        <div className="feature-list list">
-                            {features.map((feature) => (
-                                <FeatureNode
-                                    key={feature.id}
-                                    feature={feature}
-                                    onDelete={onDeleteFeature}
-                                />
-                            ))}
-                        </div>
-                    </div>
+                    <Stack>
+                        {features.map((feature) => (
+                            <FeatureNode
+                                key={feature.id}
+                                feature={feature}
+                                onDelete={onDeleteFeature}
+                            />
+                        ))}
+                    </Stack>
                 </Tabs.Panel>
                 <Tabs.Panel pt="xs" value={TAB_NAMES.locations}>
                     <InputWithButton
@@ -124,25 +122,24 @@ const LargeDetails = (props: SubDetailsProps) => {
                         styles={inputWButtonStyles}
                         mb="xs"
                     />
-                    <div className="list-container">
-                        <div className="world-location-list list">
-                            {childLocations.map((location) => (
-                                <WorldNode
-                                    locationId={location.id}
-                                    key={location.id}
-                                    onSelect={() => onSelectLocation(location)}
-                                    onDelete={() => onDeleteLocation(location)}
-                                    onUpdate={function (
-                                        newLocationData: WorldLocation
-                                    ): void {
-                                        throw new Error(
-                                            'Function not implemented.'
-                                        );
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    </div>
+                    <Stack>
+                        {childLocations.map((location) => (
+                            <WorldNode
+                                locationId={location.id}
+                                key={location.id}
+                                onSelect={() => onSelectLocation(location)}
+                                onDelete={() => onDeleteLocation(location)}
+                                onUpdate={function (
+                                    newLocationData: WorldLocation
+                                ): void {
+                                    throw new Error(
+                                        'Function not implemented.'
+                                    );
+                                }}
+                                canNavigate
+                            />
+                        ))}
+                    </Stack>
                 </Tabs.Panel>
                 <Tabs.Panel pt="xs" value={TAB_NAMES.characters}>
                     <div className="list-container"></div>

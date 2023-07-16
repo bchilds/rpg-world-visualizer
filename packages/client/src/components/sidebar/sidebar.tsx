@@ -13,16 +13,19 @@ const Sidebar = ({ opened, hideSidebar }: SidebarProps) => {
         getLocationById,
         loadWorldFromCompressedString,
         createNewWorld,
+        setCurrentLocationId,
     } = useContext(LocationContext);
     const currentWorldName = getLocationById(0).name;
     const worldNames = Object.keys(worlds);
 
     const _onClick = (targetWorldCompressedString: string) => {
-        if (
-            // don't bother loading if we're already on the target world
+        // don't bother loading if we're already on the target world
+        const alreadySelected =
             worlds[currentWorldName]?.worldTreeCompressed ===
-            targetWorldCompressedString
-        ) {
+            targetWorldCompressedString;
+        if (alreadySelected) {
+            setCurrentLocationId(0);
+            hideSidebar();
             return;
         }
         console.log('LOADING WORLD: ', targetWorldCompressedString);

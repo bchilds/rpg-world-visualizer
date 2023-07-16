@@ -1,18 +1,26 @@
-import { CloseButton, Paper, Stack } from '@mantine/core';
+import {
+    Button,
+    CloseButton,
+    MantineTheme,
+    MediaQuery,
+    Paper,
+    Space,
+    Stack,
+} from '@mantine/core';
 import { useToggle, useClickOutside } from '@mantine/hooks';
 import { useCallback } from 'react';
 
 type NodeCardComponentProps = {
     onSelect?: () => void;
     onDelete?: () => void;
-    isCurrentLocation?: boolean;
+    canNavigate?: boolean;
     children: React.ReactNode;
 };
 
 const NodeCardComponent = ({
     onSelect,
     onDelete,
-    isCurrentLocation = false,
+    canNavigate = false,
     children,
 }: NodeCardComponentProps) => {
     const [confirm, toggleConfirm] = useToggle([false, true]); // defaults to false I think
@@ -41,23 +49,57 @@ const NodeCardComponent = ({
         [confirm, onDelete]
     );
     return (
-        <Paper withBorder shadow="xs" radius="md" p="md" onClick={_onSelect}>
-            <Stack
-                style={{
-                    cursor: isCurrentLocation ? 'default' : 'pointer',
-                }}
-            >
-                {onDelete && (
-                    <CloseButton
-                        title="Delete Location"
-                        onClick={_onCloseClick}
+        <Paper
+            withBorder
+            shadow="xs"
+            radius="md"
+            p="md"
+            onClick={_onSelect}
+            style={{
+                cursor: !canNavigate ? 'default' : 'pointer',
+            }}
+            sx={(theme: MantineTheme) => ({
+                '&:hover': {
+                    borderColor: canNavigate ? theme.colors.green[8] : '',
+                },
+            })}
+        >
+            <Stack>
+                {canNavigate && (
+                    <div
                         style={{
-                            alignSelf: 'flex-end',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                         }}
-                        color={confirm ? 'red' : 'default'}
-                        ref={closeButtonRef}
-                        size={confirm ? 'md' : 'sm'}
-                    />
+                    >
+                        <MediaQuery
+                            largerThan={'sm'}
+                            styles={{
+                                display: 'none',
+                            }}
+                        >
+                            <Button size="xs" onClick={_onSelect}>
+                                Select
+                            </Button>
+                        </MediaQuery>
+                        <MediaQuery
+                            smallerThan={'sm'}
+                            styles={{ display: 'none' }}
+                        >
+                            <Space />
+                        </MediaQuery>
+                        {onDelete && (
+                            <CloseButton
+                                title="Delete Location"
+                                onClick={_onCloseClick}
+                                color={confirm ? 'red' : 'default'}
+                                ref={closeButtonRef}
+                                size={confirm ? 'md' : 'sm'}
+                            />
+                        )}
+                    </div>
                 )}
                 {children}
             </Stack>

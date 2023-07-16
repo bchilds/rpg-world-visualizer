@@ -1,4 +1,11 @@
-import { Text, MediaQuery, Accordion, Badge, Group } from '@mantine/core';
+import {
+    Text,
+    MediaQuery,
+    Accordion,
+    Badge,
+    Group,
+    Stack,
+} from '@mantine/core';
 import { WorldLocation } from '../../types/location.types';
 import InputWithButton from '../common/input-with-button';
 import FeatureNode from '../node/feature';
@@ -21,7 +28,7 @@ const MobileDetails = (props: SubDetailsProps) => {
     } = props;
     return (
         <MediaQuery largerThan={'sm'} styles={{ display: 'none' }}>
-            <Accordion defaultValue={'feature'}>
+            <Accordion>
                 <Accordion.Item value="feature">
                     <Accordion.Control>
                         <Group>
@@ -46,17 +53,15 @@ const MobileDetails = (props: SubDetailsProps) => {
                             buttonText="+"
                             mb={'sm'}
                         />
-                        <div className="list-container">
-                            <div className="feature-list list">
-                                {features.map((feature) => (
-                                    <FeatureNode
-                                        key={feature.id}
-                                        feature={feature}
-                                        onDelete={onDeleteFeature}
-                                    />
-                                ))}
-                            </div>
-                        </div>
+                        <Stack>
+                            {features.map((feature) => (
+                                <FeatureNode
+                                    key={feature.id}
+                                    feature={feature}
+                                    onDelete={onDeleteFeature}
+                                />
+                            ))}
+                        </Stack>
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item value="location">
@@ -85,29 +90,24 @@ const MobileDetails = (props: SubDetailsProps) => {
                             buttonText="+"
                             mb={'sm'}
                         />
-                        <div className="list-container">
-                            <div className="world-location-list list">
-                                {childLocations.map((location) => (
-                                    <WorldNode
-                                        locationId={location.id}
-                                        key={location.id}
-                                        onSelect={() =>
-                                            onSelectLocation(location)
-                                        }
-                                        onDelete={() =>
-                                            onDeleteLocation(location)
-                                        }
-                                        onUpdate={function (
-                                            newLocationData: WorldLocation
-                                        ): void {
-                                            throw new Error(
-                                                'Function not implemented.'
-                                            );
-                                        }}
-                                    />
-                                ))}
-                            </div>
-                        </div>
+                        <Stack>
+                            {childLocations.map((location) => (
+                                <WorldNode
+                                    locationId={location.id}
+                                    key={location.id}
+                                    onSelect={() => onSelectLocation(location)}
+                                    onDelete={() => onDeleteLocation(location)}
+                                    onUpdate={function (
+                                        newLocationData: WorldLocation
+                                    ): void {
+                                        throw new Error(
+                                            'Function not implemented.'
+                                        );
+                                    }}
+                                    canNavigate
+                                />
+                            ))}
+                        </Stack>
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item value="characters">

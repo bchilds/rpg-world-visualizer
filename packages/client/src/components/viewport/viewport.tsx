@@ -38,18 +38,6 @@ const Viewport = () => {
         );
     });
 
-    const updateCurrentLocationState = (nextCurrentLocation: WorldLocation) => {
-        setCurrentLocationId(nextCurrentLocation.id);
-        setChildLocations(
-            getLocationsByIds(nextCurrentLocation.childLocations ?? [])
-        );
-        setFeatures(
-            allFeatures.filter((feat) =>
-                nextCurrentLocation.features?.includes(feat.id)
-            )
-        );
-    };
-
     const addFeature = (newFeatureName: string) => {
         if (!newFeatureName) return;
 
@@ -123,18 +111,29 @@ const Viewport = () => {
 
     const onSelectNode = (worldLocation: WorldLocation) => {
         console.log('selecting node: ', worldLocation.name);
-        updateCurrentLocationState(worldLocation);
+        setCurrentLocationId(worldLocation.id);
 
         setHistory([...history, worldLocation.id]);
     };
 
     useEffect(() => {
-        // handle loading of data while in viewport mode
-        updateCurrentLocationState(
-            allLocations.find((loc) => loc.id === currentLocationId) ??
-                getDefaultWorldLocation()
-        );
+        // handle loading of world while in viewport mode
+        const location = allLocations.find((loc) => loc.id === currentLocationId) ?? getDefaultWorldLocation();
+        setCurrentLocationId(location.id);
     }, [allLocations]);
+
+    useEffect(() => {
+        // currentLocationId can change from other places, so this is a way to keep the state in sync regardless of how it changes
+        const nextLocation = getLocationById(currentLocationId);
+        setChildLocations(
+            getLocationsByIds(nextLocation.childLocations ?? [])
+        );
+        setFeatures(
+            allFeatures.filter((feat) =>
+                nextLocation.features?.includes(feat.id)
+            )
+        );
+    }, [currentLocationId])
 
     return (
         <div className="viewport">

@@ -10,14 +10,14 @@ type WorldNodeProps = {
     onSelect: () => void;
     onDelete?: () => void;
     onUpdate: (newLocationData: WorldLocation) => void;
-    isCurrentLocation?: boolean;
+    canNavigate?: boolean;
 };
 
 export const WorldNode = ({
     locationId,
     onSelect,
     onDelete,
-    isCurrentLocation = false,
+    canNavigate = false,
 }: WorldNodeProps) => {
     const { getLocationById, updateLocation } = useLocationContext();
     const location = getLocationById(locationId);
@@ -59,7 +59,7 @@ export const WorldNode = ({
         <NodeCardComponent
             onSelect={onSelect}
             onDelete={onDelete}
-            isCurrentLocation={isCurrentLocation}
+            canNavigate={canNavigate}
         >
             <TextInput
                 value={nodeName}
