@@ -3,7 +3,9 @@ import { Feature } from '../../types/location.types';
 import SaveControls from './save-controls';
 import { useLocationContext } from '../../contexts/location.context';
 
-import './node.css';
+import NodeCardComponent from './node-card-component';
+import { TextInput, Textarea } from '@mantine/core';
+import { useInputState } from '@mantine/hooks';
 
 const FeatureNode = ({
     feature,
@@ -13,8 +15,8 @@ const FeatureNode = ({
     onDelete: (feature: Feature) => void;
 }) => {
     const { updateFeature } = useLocationContext();
-    const [name, setName] = useState(feature.name);
-    const [description, setDescription] = useState(feature.description);
+    const [name, setName] = useInputState(feature.name);
+    const [description, setDescription] = useInputState(feature.description);
     const [isDirty, setIsDirty] = useState(false);
 
     const checkIsDirty = () => {
@@ -40,15 +42,9 @@ const FeatureNode = ({
         setIsDirty(false);
     }, [feature]);
 
-    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value);
-    };
-
-    const handleDescriptionChange = (
-        event: React.ChangeEvent<HTMLTextAreaElement>
-    ) => {
-        setDescription(event.target.value);
-    };
+    const _onDelete = useCallback(() => {
+        onDelete(feature);
+    }, [feature]);
 
     const handleEnter = (
         event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -61,20 +57,20 @@ const FeatureNode = ({
     };
 
     return (
-        <div className="feature-container">
-            <button className="delete-node" onClick={() => onDelete(feature)}>x</button>
-            <input
-                type="text"
+        <NodeCardComponent onDelete={_onDelete}>
+            <TextInput
                 value={name}
-                onChange={handleNameChange}
+                onChange={setName}
                 onKeyDown={handleEnter}
                 placeholder="Name of feature"
             />
-            <textarea
+            <Textarea
                 value={description}
-                onChange={handleDescriptionChange}
+                onChange={setDescription}
                 onKeyDown={handleEnter}
                 placeholder="Description of feature"
+                autosize
+                maxRows={8}
             />
             {isDirty && (
                 <SaveControls
@@ -82,7 +78,7 @@ const FeatureNode = ({
                     onCancel={_cancelUpdateFeature}
                 />
             )}
-        </div>
+        </NodeCardComponent>
     );
 };
 

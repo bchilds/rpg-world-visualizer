@@ -3,7 +3,7 @@ import { useToggle, useClickOutside } from '@mantine/hooks';
 import { useCallback } from 'react';
 
 type NodeCardComponentProps = {
-    onSelect: () => void;
+    onSelect?: () => void;
     onDelete?: () => void;
     isCurrentLocation?: boolean;
     children: React.ReactNode;
@@ -17,9 +17,15 @@ const NodeCardComponent = ({
 }: NodeCardComponentProps) => {
     const [confirm, toggleConfirm] = useToggle([false, true]); // defaults to false I think
     const closeButtonRef = useClickOutside(() => {
-      toggleConfirm();
+        toggleConfirm();
     });
-    
+
+    const _onSelect = useCallback(() => {
+        if (onSelect) {
+            onSelect();
+        }
+    }, [onSelect]);
+
     const _onCloseClick = useCallback(
         (e: React.SyntheticEvent) => {
             e.stopPropagation();
@@ -33,7 +39,7 @@ const NodeCardComponent = ({
         [confirm, onDelete]
     );
     return (
-        <Paper withBorder shadow="xs" radius="md" p="md" onClick={onSelect}>
+        <Paper withBorder shadow="xs" radius="md" p="md" onClick={_onSelect}>
             <Stack
                 style={{
                     cursor: isCurrentLocation ? 'default' : 'pointer',
@@ -48,6 +54,7 @@ const NodeCardComponent = ({
                         }}
                         color={confirm ? 'red' : 'default'}
                         ref={closeButtonRef}
+                        size={confirm ? 'md' : 'sm'}
                     />
                 )}
                 {children}

@@ -87,6 +87,7 @@ export const WorldNode = ({
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
+                maxRows={8}
             />
             {isDirty && <SaveControls onSave={onSave} onCancel={onCancel} />}
         </NodeCardComponent>
