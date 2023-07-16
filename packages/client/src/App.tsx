@@ -7,7 +7,7 @@ import {
     Burger,
     useMantineTheme,
     Title,
-    Flex
+    Flex,
 } from '@mantine/core';
 import { AppWrappers } from './app-wrappers';
 import DataLoader from './components/data-loader/data-loader';
@@ -17,6 +17,7 @@ import Sidebar from './components/sidebar/sidebar';
 import { ViewMode, viewModes } from './types/view-modes.types';
 import ViewModeControls from './components/view-mode-controls/view-mode-controls';
 import './App.css';
+import CharacterPage from './components/characters/character-page';
 
 function App() {
     const theme = useMantineTheme();
@@ -116,6 +117,7 @@ function App() {
             >
                 <div className="content-container">
                     {viewMode === viewModes.viewport && <Viewport />}
+                    {viewMode === viewModes.characters && <CharacterPage />}
                     {viewMode === viewModes.overview && (
                         <Overview
                             onNodeSelect={() => setViewMode(viewModes.viewport)}
