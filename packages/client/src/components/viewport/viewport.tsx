@@ -150,7 +150,7 @@ const Viewport = () => {
     }, [currentLocationId, currentWorldName]);
 
     return (
-        <Box>
+        <Box maw={'50rem'} w={'100%'}>
             <Text mb='md'>
                 Add features to describe a location, or child locations.
             </Text>
