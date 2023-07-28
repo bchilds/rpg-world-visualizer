@@ -10,31 +10,54 @@ import {
 import { isNotEmpty, useForm } from '@mantine/form';
 import { Character } from '../../types/character.types';
 import { useCallback } from 'react';
+import { Item } from '../../types/items.types';
 
 // create TextInput for autocomplete of existing items from a data source w/ search dd built in
-
-const initialValues: Omit<Character, 'id'> = {
-    name: 'New Character',
+type FormValues = {
+    name: string;
+    description: string;
+    stats: unknown;
+    loot: Item[];
+    primaryFactionName: string;
+    tags: string[];
+    locations: {
+        id: number;
+        notes: string;
+    }[];
+};
+const initialValues: FormValues = {
+    name: '',
     description: '',
     stats: {},
     loot: [],
-    primaryFaction: null,
+    primaryFactionName: '',
     tags: [],
     locations: [],
-    locationNotes: [],
 };
 const NewCharacterForm = () => {
     const form = useForm({
         initialValues,
         validate: {
             name: isNotEmpty('Name is required'),
+            // description
         },
     });
 
-    const onSubmit = useCallback((values: Character) => {}, []);
+    const _onSubmit = useCallback(
+        (values: Character) => {
+            // handle primaryFactionName picking a faction
+            form.validate();
+
+            form.reset();
+            form.resetTouched();
+        },
+        [form]
+    );
     return (
         <Stack>
-            <Title order={3}>New Character Form</Title>
+            <Title order={3} style={{ justifySelf: 'flex-start' }}>
+                New Character Form
+            </Title>
             <Paper
                 withBorder
                 shadow="xs"
@@ -46,6 +69,11 @@ const NewCharacterForm = () => {
                     onSubmit={form.onSubmit((values) => {
                         console.log({ values });
                     })}
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '1rem',
+                    }}
                 >
                     <TextInput
                         label="Character Name"
@@ -60,16 +88,17 @@ const NewCharacterForm = () => {
                         autosize
                         {...form.getInputProps('description')}
                     />
-                    <TextInput
-                        label="Faction"
-                        placeholder="Enter a faction"
-                        {...form.getInputProps('primaryFaction')}
-                    />
+                    {/* search/picker for faction based on factionName */}
+                    {/* stats */}
                     {/* create item generator for loot */}
+                    {/* search/picker for tags */}
                     {/* add list of locations w/ search and dd */}
-
+                    {/* add notes for location */}
                     <Group position="center" mt="md">
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit" disabled={!form.isTouched}>
+                            Submit
+                        </Button>
+                        <Button onClick={form.reset}>Reset</Button>
                     </Group>
                 </form>
             </Paper>

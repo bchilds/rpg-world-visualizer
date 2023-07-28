@@ -5,8 +5,10 @@ import NodeCardComponent from '../node/node-card-component';
 const CharacterList = () => {
     const { allCharacters } = useLocationContext();
     return (
-        <Stack>
-            <Title order={3}>Character List</Title>
+        <Stack style={{ marginBottom: 'auto' }}>
+            <Title order={3} style={{ justifySelf: 'flex-start' }}>
+                Character List
+            </Title>
             {allCharacters.map((character) => (
                 <NodeCardComponent key={character.id}>
                     {character.name}

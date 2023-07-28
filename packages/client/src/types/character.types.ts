@@ -7,12 +7,11 @@ export type Character = {
     name: string;
     description?: string;
     locations: WorldLocation['id'][];
-    locationNotes: {
+    locationNotes?: {
         [locationId: WorldLocation['id']]: string;
     };
     stats: unknown;
-    loot: Item[];
+    loot?: Item[];
     primaryFaction: Faction | null;
     tags: string[];
-    // linkedCharacters: Character['id'][] // I don't wanna do it this way, but I could
 };
