@@ -6,11 +6,12 @@ import {
     TextInput,
     Textarea,
     Title,
+    MultiSelect,
 } from '@mantine/core';
 import { isNotEmpty, useForm } from '@mantine/form';
-import { Character } from '../../types/character.types';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Item } from '../../types/items.types';
+import { useLocationContext } from '../../contexts/location.context';
 
 // create TextInput for autocomplete of existing items from a data source w/ search dd built in
 type FormValues = {
@@ -35,6 +36,14 @@ const initialValues: FormValues = {
     locations: [],
 };
 const NewCharacterForm = () => {
+    const { allLocations } = useLocationContext();
+    const locationOptions = useMemo(() => {
+        return allLocations.map((location) => ({
+            value: location.id.toString(),
+            label: location.name,
+        }));
+    }, [allLocations]);
+
     const form = useForm({
         initialValues,
         validate: {
@@ -44,9 +53,11 @@ const NewCharacterForm = () => {
     });
 
     const _onSubmit = useCallback(
-        (values: Character) => {
+        (values: FormValues) => {
             // handle primaryFactionName picking a faction
             form.validate();
+
+            // convert values.locations to numbers from strings
 
             form.reset();
             form.resetTouched();
@@ -68,6 +79,7 @@ const NewCharacterForm = () => {
                 <form
                     onSubmit={form.onSubmit((values) => {
                         console.log({ values });
+                        _onSubmit(values);
                     })}
                     style={{
                         display: 'flex',
@@ -88,12 +100,20 @@ const NewCharacterForm = () => {
                         autosize
                         {...form.getInputProps('description')}
                     />
-                    {/* search/picker for faction based on factionName */}
+                    <MultiSelect
+                        data={locationOptions}
+                        label="Locations"
+                        placeholder="Associated locations"
+                        searchable
+                        clearable
+                        nothingFound="Nope."
+                        {...form.getInputProps('locations')}
+                    />
+                    {/* add notes for location somehow -- I may do this in character list actually */}
+                    {/* MultiSelect for faction based on factionName */}
                     {/* stats */}
                     {/* create item generator for loot */}
-                    {/* search/picker for tags */}
-                    {/* add list of locations w/ search and dd */}
-                    {/* add notes for location */}
+                    {/* MultiSelect for tags w/ create */}
                     <Group position="center" mt="md">
                         <Button type="submit" disabled={!form.isTouched}>
                             Submit
