@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { getDefaultWorldLocation } from '../../contexts/global.context';
+import { getDefaultWorldLocation, useGlobalContext } from '../../contexts/global.context';
 import { Button, Navbar, Stack, Title } from '@mantine/core';
 
 type SidebarProps = {
@@ -14,7 +13,7 @@ const Sidebar = ({ opened, hideSidebar }: SidebarProps) => {
         loadWorldFromCompressedString,
         createNewWorld,
         setCurrentLocationId,
-    } = useContext(LocationContext);
+    } = useGlobalContext();
     const currentWorldName = getLocationById(0).name;
     const worldNames = Object.keys(worlds);
 

@@ -9,13 +9,14 @@ const COPY_TEXT = 'Copy World URL';
 const COPY_MESSAGE = 'Copied world URL to clipboard!';
 
 const DataLoader = () => {
-    const { allLocations, allFeatures } = useGlobalContext();
+    const { allLocations, allFeatures, allCharacters } = useGlobalContext();
     const [_copiedText, copy] = useCopyToClipboard();
 
     const onGenerate = () => {
         const compressedData = generateCompressedString({
             allLocations,
             allFeatures,
+            allCharacters,
         });
         const worldUrl = `${window.location.origin}#${compressedData}`;
         copy(worldUrl);

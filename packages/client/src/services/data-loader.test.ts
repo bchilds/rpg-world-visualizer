@@ -1,7 +1,7 @@
 import { test, expect } from 'vitest';
 import {
-  generateCompressedString,
-  loadDataFromCompressedString,
+    generateCompressedString,
+    loadDataFromCompressedString,
 } from './data-loader';
 
 const someData = {
@@ -18,9 +18,11 @@ const someData = {
             name: 'Location 1',
             description: 'Description 1',
             features: [1],
+            characters: [],
             childLocations: [],
         },
     ],
+    allCharacters: [],
 };
 
 test('can generate a compressed string', () => {
