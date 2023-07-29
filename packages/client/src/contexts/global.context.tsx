@@ -142,7 +142,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         };
         const compressedString = generateCompressedString(data);
         return compressedString;
-    }, [allFeatures, allLocations]);
+    }, [allFeatures, allLocations, allCharacters]);
 
     // get locations from list of IDs
     const getLocationsByIds = useCallback(
@@ -262,7 +262,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         // update worlds
         const newWorlds = getWorlds();
         setWorlds(newWorlds);
-    }, [allLocations, allFeatures, getLocationById]);
+    }, [allLocations, allFeatures, allCharacters, getLocationById]);
 
     const globalContextValue: GlobalContext = useMemo(
         () => ({

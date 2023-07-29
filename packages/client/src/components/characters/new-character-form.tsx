@@ -75,7 +75,7 @@ const NewCharacterForm = () => {
                 form.resetTouched();
             }
         },
-        [form]
+        [form, allCharacters, setAllCharacters]
     );
     return (
         <Stack>

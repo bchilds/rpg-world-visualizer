@@ -9,7 +9,7 @@
             "name": "Launch Chrome against localhost",
             "type": "node",
             "runtimeExecutable": "pnpm",
-            "runtimeArgs": ["start:dev"],
+            "runtimeArgs": ["run", "--filter", "client", "dev"],
             "serverReadyAction": {
                 "action": "debugWithChrome",
                 "pattern": "Local: http://localhost:([0-9]+)",
