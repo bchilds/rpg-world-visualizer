@@ -1,6 +1,6 @@
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
-import { LocationProvider } from './contexts/location.context';
+import { GlobalProvider } from './contexts/global.context';
 
 export const AppWrappers = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -9,7 +9,7 @@ export const AppWrappers = ({ children }: { children: React.ReactNode }) => {
             primaryColor: 'gray',
         }} withNormalizeCSS>
             <Notifications position='top-right'/>
-            <LocationProvider>{children}</LocationProvider>
+            <GlobalProvider>{children}</GlobalProvider>
         </MantineProvider>
     );
 }

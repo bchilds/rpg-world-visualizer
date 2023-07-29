@@ -3,8 +3,8 @@ import { Feature, WorldLocation } from '../../types/location.types';
 import WorldNode from '../node/world-location';
 import {
     getDefaultWorldLocation,
-    useLocationContext,
-} from '../../contexts/location.context';
+    useGlobalContext,
+} from '../../contexts/global.context';
 import Details from './details';
 import { Box, Space, Text } from '@mantine/core';
 import { getCurrentWorldName } from '../../services/local-storage-api';
@@ -22,7 +22,7 @@ const Viewport = () => {
         getLocationsByIds,
         getLocationById,
         updateLocation,
-    } = useLocationContext();
+    } = useGlobalContext();
     const currentWorldName = getCurrentWorldName();
     const [history, setHistory] = useState<WorldLocation['id'][]>([
         currentLocationId,

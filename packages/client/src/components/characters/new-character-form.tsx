@@ -11,7 +11,7 @@ import {
 import { isNotEmpty, useForm } from '@mantine/form';
 import { useCallback, useMemo } from 'react';
 import { Item } from '../../types/items.types';
-import { useLocationContext } from '../../contexts/location.context';
+import { useGlobalContext } from '../../contexts/global.context';
 
 // create TextInput for autocomplete of existing items from a data source w/ search dd built in
 type FormValues = {
@@ -36,7 +36,7 @@ const initialValues: FormValues = {
     locations: [],
 };
 const NewCharacterForm = () => {
-    const { allLocations } = useLocationContext();
+    const { allLocations } = useGlobalContext();
     const locationOptions = useMemo(() => {
         return allLocations.map((location) => ({
             value: location.id.toString(),

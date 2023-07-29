@@ -1,4 +1,4 @@
-import { useLocationContext } from '../../contexts/location.context';
+import { useGlobalContext } from '../../contexts/global.context';
 import { generateCompressedString } from '../../services/data-loader';
 import { useCopyToClipboard } from '../../hooks/use-copy-to-clipboard';
 import { createNotification } from '../notifications/notification-manager';
@@ -9,7 +9,7 @@ const COPY_TEXT = 'Copy World URL';
 const COPY_MESSAGE = 'Copied world URL to clipboard!';
 
 const DataLoader = () => {
-    const { allLocations, allFeatures } = useLocationContext();
+    const { allLocations, allFeatures } = useGlobalContext();
     const [_copiedText, copy] = useCopyToClipboard();
 
     const onGenerate = () => {

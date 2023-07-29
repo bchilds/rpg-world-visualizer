@@ -31,7 +31,7 @@ export const getDefaultWorldLocation = (): WorldLocation => ({
     characters: [],
 });
 
-type LocationContextType = {
+type GlobalContext = {
     currentLocationId: WorldLocation['id'];
     setCurrentLocationId: React.Dispatch<
         React.SetStateAction<WorldLocation['id']>
@@ -46,6 +46,7 @@ type LocationContextType = {
     getLocationsByIds: (locationIds: WorldLocation['id'][]) => WorldLocation[];
     updateLocation: (location: WorldLocation) => void;
     updateFeature: (feature: Feature) => void;
+    updateCharacter: (character: Character) => void;
     convertNodeToTree: (id: WorldLocation['id']) => any;
     worlds: LocalStorageWorldsMap;
     loadWorldFromCompressedString: (compressedString: string) => void;
@@ -54,20 +55,20 @@ type LocationContextType = {
 };
 
 let initialWorldLoad: ReturnType<typeof loadDataFromCompressedString>;
-    const currentWorldCompressed = getCurrentWorld();
-    if (window.location.hash || currentWorldCompressed) {
-        // prefer hash over local storage
-        const compressedString =
-            window.location.hash.slice(1) ||
-            currentWorldCompressed.worldTreeCompressed;
-        initialWorldLoad = loadDataFromCompressedString(compressedString);
-        if (initialWorldLoad) {
-            setCurrentWorld(initialWorldLoad.allLocations[0].name);
-        }
-        window.location.hash = '';
+const currentWorldCompressed = getCurrentWorld();
+if (window.location.hash || currentWorldCompressed) {
+    // prefer hash over local storage
+    const compressedString =
+        window.location.hash.slice(1) ||
+        currentWorldCompressed.worldTreeCompressed;
+    initialWorldLoad = loadDataFromCompressedString(compressedString);
+    if (initialWorldLoad) {
+        setCurrentWorld(initialWorldLoad.allLocations[0].name);
     }
+    window.location.hash = '';
+}
 
-export const LocationContext = createContext<LocationContextType>({
+export const GlobalContext = createContext<GlobalContext>({
     currentLocationId: 0,
     setCurrentLocationId: () => {},
     allLocations: initialWorldLoad?.allLocations ?? [getDefaultWorldLocation()],
@@ -81,19 +82,15 @@ export const LocationContext = createContext<LocationContextType>({
     getLocationsByIds: () => [],
     updateLocation: () => {},
     updateFeature: () => {},
+    updateCharacter: () => {},
     convertNodeToTree: () => {},
     loadWorldFromCompressedString: () => {},
     generateCompressedStringForWorld: () => '',
     createNewWorld: () => {},
 });
-export const useLocationContext = () => useContext(LocationContext);
+export const useGlobalContext = () => useContext(GlobalContext);
 
-export const LocationProvider = ({
-    children,
-}: {
-    children: React.ReactNode;
-}) => {
-
+export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     const [worlds, setWorlds] = useState<LocalStorageWorldsMap>(() => {
         const storageWorlds = getWorlds();
         return storageWorlds;
@@ -221,6 +218,21 @@ export const LocationProvider = ({
         [setAllFeatures]
     );
 
+    // update character
+    const updateCharacter = useCallback(
+        (character: Character) => {
+            setAllCharacters((prevCharacters) => {
+                const nextCharacters = [...prevCharacters];
+                const characterIndex = nextCharacters.findIndex(
+                    (char) => char.id === character.id
+                );
+                nextCharacters[characterIndex] = character;
+                return nextCharacters;
+            });
+        },
+        [setAllCharacters]
+    );
+
     // builds a tree from target node
     const convertNodeToTree = useCallback(
         (id: WorldLocation['id']) => {
@@ -252,7 +264,7 @@ export const LocationProvider = ({
         setWorlds(newWorlds);
     }, [allLocations, allFeatures, getLocationById]);
 
-    const locationContextValue: LocationContextType = useMemo(
+    const globalContextValue: GlobalContext = useMemo(
         () => ({
             currentLocationId,
             setCurrentLocationId,
@@ -266,6 +278,7 @@ export const LocationProvider = ({
             getLocationById,
             updateLocation,
             updateFeature,
+            updateCharacter,
             convertNodeToTree,
             worlds,
             loadWorldFromCompressedString,
@@ -285,6 +298,7 @@ export const LocationProvider = ({
             getLocationById,
             updateLocation,
             updateFeature,
+            updateCharacter,
             convertNodeToTree,
             worlds,
             loadWorldFromCompressedString,
@@ -294,8 +308,8 @@ export const LocationProvider = ({
     );
 
     return (
-        <LocationContext.Provider value={locationContextValue}>
+        <GlobalContext.Provider value={globalContextValue}>
             {children}
-        </LocationContext.Provider>
+        </GlobalContext.Provider>
     );
 };

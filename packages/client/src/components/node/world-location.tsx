@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { TextInput, Textarea } from '@mantine/core';
 import { WorldLocation } from '../../types/location.types';
-import { useLocationContext } from '../../contexts/location.context';
+import { useGlobalContext } from '../../contexts/global.context';
 import SaveControls from './save-controls';
 import NodeCardComponent from './node-card-component';
 
@@ -19,7 +19,7 @@ export const WorldNode = ({
     onDelete,
     canNavigate = false,
 }: WorldNodeProps) => {
-    const { getLocationById, updateLocation } = useLocationContext();
+    const { getLocationById, updateLocation } = useGlobalContext();
     const location = getLocationById(locationId);
     const { name, description = '' } = location;
     const [nodeName, setNodeName] = useState<string>(name);

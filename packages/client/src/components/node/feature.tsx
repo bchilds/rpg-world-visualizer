@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Feature } from '../../types/location.types';
 import SaveControls from './save-controls';
-import { useLocationContext } from '../../contexts/location.context';
+import { useGlobalContext } from '../../contexts/global.context';
 
 import NodeCardComponent from './node-card-component';
 import { TextInput, Textarea } from '@mantine/core';
@@ -14,7 +14,7 @@ const FeatureNode = ({
     feature: Feature;
     onDelete: (feature: Feature) => void;
 }) => {
-    const { updateFeature } = useLocationContext();
+    const { updateFeature } = useGlobalContext();
     const [name, setName] = useInputState(feature.name);
     const [description, setDescription] = useInputState(feature.description);
     const [isDirty, setIsDirty] = useState(false);

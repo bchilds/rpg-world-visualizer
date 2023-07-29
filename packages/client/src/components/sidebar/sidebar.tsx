@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { LocationContext, getDefaultWorldLocation } from '../../contexts/location.context';
+import { getDefaultWorldLocation } from '../../contexts/global.context';
 import { Button, Navbar, Stack, Title } from '@mantine/core';
 
 type SidebarProps = {

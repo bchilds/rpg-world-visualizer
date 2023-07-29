@@ -1,9 +1,9 @@
 import { Stack, Title } from '@mantine/core';
-import { useLocationContext } from '../../contexts/location.context';
+import { useGlobalContext } from '../../contexts/global.context';
 import NodeCardComponent from '../node/node-card-component';
 
 const CharacterList = () => {
-    const { allCharacters } = useLocationContext();
+    const { allCharacters } = useGlobalContext();
     return (
         <Stack style={{ marginBottom: 'auto' }}>
             <Title order={3} style={{ justifySelf: 'flex-start' }}>

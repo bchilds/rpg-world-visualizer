@@ -1,6 +1,6 @@
 import Tree, { TreeNodeEventCallback } from 'react-d3-tree';
 
-import { useLocationContext } from '../../contexts/location.context';
+import { useGlobalContext } from '../../contexts/global.context';
 
 import './overview.css';
 import { D3TreeNode } from './d3-tree';
@@ -16,7 +16,7 @@ const Overview = ({ onNodeSelect }: { onNodeSelect: () => void }) => {
         getLocationById,
         allLocations,
         updateLocation,
-    } = useLocationContext();
+    } = useGlobalContext();
     const tree = convertNodeToTree(0);
     const [overviewRef, setOverviewRef] = useState<HTMLDivElement | null>(null);
     const [overviewToolMode, setOverviewToolMode] =
