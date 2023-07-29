@@ -3,7 +3,14 @@ import { useGlobalContext } from '../../contexts/global.context';
 import NodeCardComponent from '../node/node-card-component';
 
 const CharacterList = () => {
-    const { allCharacters } = useGlobalContext();
+    const { allCharacters, setAllCharacters } = useGlobalContext();
+
+    const deleteCharacter = (id: number) => {
+        const newCharacters = allCharacters.filter(
+            (character) => character.id !== id
+        );
+        setAllCharacters(newCharacters);
+    };
     return (
         <Stack style={{ marginBottom: 'auto' }}>
             <Title order={3} style={{ justifySelf: 'flex-start' }}>

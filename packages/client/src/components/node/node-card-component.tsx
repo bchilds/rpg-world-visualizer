@@ -1,14 +1,12 @@
 import {
-    Button,
-    CloseButton,
-    MantineTheme,
+    Button, MantineTheme,
     MediaQuery,
     Paper,
     Space,
-    Stack,
+    Stack
 } from '@mantine/core';
-import { useToggle, useClickOutside } from '@mantine/hooks';
 import { useCallback } from 'react';
+import DeleteX from '../delete-x/delete-x';
 
 type NodeCardComponentProps = {
     onSelect?: () => void;
@@ -23,31 +21,12 @@ const NodeCardComponent = ({
     canNavigate = false,
     children,
 }: NodeCardComponentProps) => {
-    const [confirm, toggleConfirm] = useToggle([false, true]); // defaults to false I think
-    const closeButtonRef = useClickOutside(() => {
-        if (confirm) {
-            toggleConfirm();
-        }
-    });
-
     const _onSelect = useCallback(() => {
         if (onSelect) {
             onSelect();
         }
     }, [onSelect]);
 
-    const _onCloseClick = useCallback(
-        (e: React.SyntheticEvent) => {
-            e.stopPropagation();
-            if (!confirm) {
-                return toggleConfirm();
-            }
-            if (onDelete) {
-                onDelete();
-            }
-        },
-        [confirm, onDelete]
-    );
     return (
         <Paper
             withBorder
@@ -90,15 +69,7 @@ const NodeCardComponent = ({
                         >
                             <Space />
                         </MediaQuery>
-                        {onDelete && (
-                            <CloseButton
-                                title="Delete Location"
-                                onClick={_onCloseClick}
-                                color={confirm ? 'red' : 'default'}
-                                ref={closeButtonRef}
-                                size={confirm ? 'md' : 'sm'}
-                            />
-                        )}
+                        {onDelete && <DeleteX onDelete={onDelete} />}
                     </div>
                 )}
                 {children}
