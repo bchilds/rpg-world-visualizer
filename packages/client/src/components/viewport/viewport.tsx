@@ -18,7 +18,6 @@ const Viewport = () => {
         allCharacters,
         setAllLocations,
         setAllFeatures,
-        setAllCharacters,
         getLocationsByIds,
         getLocationById,
         updateLocation,
@@ -169,6 +168,7 @@ const Viewport = () => {
                 childLocations={childLocations}
                 onSelectLocation={onSelectNode}
                 characters={characters}
+                currentLocationId={currentLocationId}
             />
         </Box>
     );

@@ -40,6 +40,7 @@ const LargeDetails = (props: SubDetailsProps) => {
         newLocationName,
         setNewLocationName,
         characters,
+        currentLocationId,
     } = props;
 
     return (
@@ -151,6 +152,7 @@ const LargeDetails = (props: SubDetailsProps) => {
                             <CharacterCard
                                 key={character.id}
                                 id={character.id}
+                                currentLocationId={currentLocationId}
                             />
                         ))}
                     </Stack>

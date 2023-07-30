@@ -14,6 +14,7 @@ type DetailsProps = {
     onDeleteLocation: (location: WorldLocation) => void;
     onDeleteFeature: (feature: Feature) => void;
     characters: Character[];
+    currentLocationId: WorldLocation['id']
 };
 
 export type SubDetailsProps = DetailsProps & {
@@ -37,6 +38,7 @@ const Details = ({
     onDeleteFeature,
     onSelectLocation,
     characters,
+    currentLocationId,
 }: DetailsProps) => {
     const [newLocationName, setNewLocationName] = useInputState('');
     const [newFeatureName, setNewFeatureName] = useInputState('');
@@ -66,6 +68,7 @@ const Details = ({
                 newLocationName={newLocationName}
                 setNewLocationName={setNewLocationName}
                 characters={characters}
+                currentLocationId={currentLocationId}
             />
             <MobileDetails
                 onAddFeature={_onAddFeature}
@@ -80,6 +83,7 @@ const Details = ({
                 newLocationName={newLocationName}
                 setNewLocationName={setNewLocationName}
                 characters={characters}
+                currentLocationId={currentLocationId}
             />
         </>
     );

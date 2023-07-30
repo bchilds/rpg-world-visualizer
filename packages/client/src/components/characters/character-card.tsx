@@ -5,8 +5,15 @@ import NodeCardComponent from '../node/node-card-component';
 import EditCharacter, { OnCharacterSubmit } from './edit-character';
 import { useClickOutside, useToggle } from '@mantine/hooks';
 import ViewCharacter from './view-character';
+import { WorldLocation } from '../../types/location.types';
 
-const CharacterCard = ({ id }: { id: Character['id'] }) => {
+const CharacterCard = ({
+    id,
+    currentLocationId,
+}: {
+    id: Character['id'];
+    currentLocationId?: WorldLocation['id'];
+}) => {
     const [isEdit, toggleEdit] = useToggle();
     const ref = useClickOutside(() => toggleEdit(false));
 
@@ -30,15 +37,21 @@ const CharacterCard = ({ id }: { id: Character['id'] }) => {
 
     const _onUpdateCharacter = useCallback<OnCharacterSubmit>(
         (values, _form) => {
+            const newLocationNotes = {
+                ...character.locationNotes,
+                ...(values.locationNotes as { [key: number]: string }),
+            };
+
             const newCharacter = {
                 ...character,
                 ...values,
                 locations: values.locations.map(Number),
+                locationNotes: newLocationNotes,
             };
             updateCharacter(newCharacter);
             toggleEdit(false);
         },
-        []
+        [character, updateCharacter, toggleEdit]
     );
 
     return (
@@ -48,8 +61,16 @@ const CharacterCard = ({ id }: { id: Character['id'] }) => {
             onSelect={() => toggleEdit(true)}
             showHover
         >
-            {isEdit && <EditCharacter id={id} onSubmit={_onUpdateCharacter} />}
-            {!isEdit && <ViewCharacter id={id} />}
+            {isEdit && (
+                <EditCharacter
+                    id={id}
+                    onSubmit={_onUpdateCharacter}
+                    currentLocationId={currentLocationId}
+                />
+            )}
+            {!isEdit && (
+                <ViewCharacter id={id} currentLocationId={currentLocationId} />
+            )}
         </NodeCardComponent>
     );
 };

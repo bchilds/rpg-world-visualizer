@@ -11,6 +11,7 @@ import InputWithButton from '../common/input-with-button';
 import FeatureNode from '../node/feature';
 import WorldNode from '../node/world-location';
 import { SubDetailsProps } from './details';
+import CharacterCard from '../characters/character-card';
 
 const MobileDetails = (props: SubDetailsProps) => {
     const {
@@ -26,6 +27,7 @@ const MobileDetails = (props: SubDetailsProps) => {
         newLocationName,
         setNewLocationName,
         characters,
+        currentLocationId,
     } = props;
     return (
         <MediaQuery largerThan={'sm'} styles={{ display: 'none' }}>
@@ -118,7 +120,17 @@ const MobileDetails = (props: SubDetailsProps) => {
                             <Badge variant="filled">{characters.length}</Badge>
                         </Group>
                     </Accordion.Control>
-                    <Accordion.Panel></Accordion.Panel>
+                    <Accordion.Panel>
+                        <Stack>
+                            {characters.map((character) => (
+                                <CharacterCard
+                                    key={character.id}
+                                    id={character.id}
+                                    currentLocationId={currentLocationId}
+                                />
+                            ))}
+                        </Stack>
+                    </Accordion.Panel>
                 </Accordion.Item>
             </Accordion>
         </MediaQuery>

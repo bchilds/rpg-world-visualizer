@@ -14,7 +14,7 @@ export type FormValues = {
     primaryFactionName: string;
     tags: string[];
     locations: string[] | number[];
-    locationNotes: string;
+    locationNotes: string | { [key: number]: string };
 };
 
 export type OnCharacterSubmit = (
@@ -90,6 +90,11 @@ const EditCharacter = ({
             // convert values.locations to numbers from strings
             values.locations = values.locations.map(Number);
 
+            // patch notes into map form for use in submit
+            if(currentLocationId !== undefined && typeof values.locationNotes === 'string') {
+                values.locationNotes = { [currentLocationId]: values.locationNotes}
+            }
+
             if (form.isValid()) {
                 onSubmit(values, form);
 
@@ -97,7 +102,7 @@ const EditCharacter = ({
                 form.resetTouched();
             }
         },
-        [form]
+        [form, currentLocationId]
     );
 
     return (
@@ -139,7 +144,7 @@ const EditCharacter = ({
                     label="Location Notes"
                     placeholder="Notes"
                     autosize
-                    {...form.getInputProps('notes')}
+                    {...form.getInputProps('locationNotes')}
                 />
             )}
             {/* MultiSelect for faction based on factionName */}
