@@ -9,7 +9,7 @@ import ViewCharacter from './view-character';
 const CharacterCard = ({ id }: { id: Character['id'] }) => {
     const [isEdit, toggleEdit] = useToggle();
     const ref = useClickOutside(() => toggleEdit(false));
-    
+
     const { allCharacters, setAllCharacters, updateCharacter } =
         useGlobalContext();
     const character = allCharacters.find((character) => character.id === id);
@@ -45,7 +45,7 @@ const CharacterCard = ({ id }: { id: Character['id'] }) => {
         <NodeCardComponent
             ref={ref}
             onDelete={() => deleteCharacter(id)}
-            onSelect={()  => toggleEdit(true)}
+            onSelect={() => toggleEdit(true)}
             showHover
         >
             {isEdit && <EditCharacter id={id} onSubmit={_onUpdateCharacter} />}

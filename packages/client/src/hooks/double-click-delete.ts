@@ -21,5 +21,5 @@ export const useOnConfirmClick = (onConfirmClick: () => void) => {
         [confirm, onConfirmClick]
     );
 
-    return {confirm, closeButtonRef, onDoubleClick};
+    return { confirm, closeButtonRef, onDoubleClick };
 };

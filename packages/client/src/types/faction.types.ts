@@ -3,4 +3,4 @@ export type Faction = {
     name: string;
     description: string;
     features: string[];
-}
+};

@@ -37,8 +37,8 @@ const Viewport = () => {
         const currentLocation = allLocations.find(
             (loc) => loc.id === currentLocationId
         );
-        return allFeatures.filter((feat) =>
-            currentLocation?.features?.includes(feat.id)
+        return allFeatures.filter(
+            (feat) => currentLocation?.features?.includes(feat.id)
         );
     });
 
@@ -46,8 +46,8 @@ const Viewport = () => {
         const currentLocation = allLocations.find(
             (loc) => loc.id === currentLocationId
         );
-        return allCharacters.filter((char) =>
-            currentLocation?.characters?.includes(char.id)
+        return allCharacters.filter(
+            (char) => currentLocation?.characters?.includes(char.id)
         );
     });
 
@@ -143,15 +143,15 @@ const Viewport = () => {
         const nextLocation = getLocationById(currentLocationId);
         setChildLocations(getLocationsByIds(nextLocation.childLocations ?? []));
         setFeatures(
-            allFeatures.filter((feat) =>
-                nextLocation.features?.includes(feat.id)
+            allFeatures.filter(
+                (feat) => nextLocation.features?.includes(feat.id)
             )
         );
     }, [currentLocationId, currentWorldName]);
 
     return (
         <Box maw={'50rem'} w={'100%'}>
-            <Text mb='md'>
+            <Text mb="md">
                 Add features to describe a location, or child locations.
             </Text>
             <WorldNode
