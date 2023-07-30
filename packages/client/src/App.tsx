@@ -18,15 +18,18 @@ import { ViewMode, viewModes } from './types/view-modes.types';
 import ViewModeControls from './components/view-mode-controls/view-mode-controls';
 import './App.css';
 import CharacterPage from './components/characters/character-page';
+import { useLocalStorage } from '@mantine/hooks';
 
 function App() {
     const theme = useMantineTheme();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [viewMode, setViewMode] = useState<ViewMode>(viewModes.viewport);
+    const [viewMode, setViewMode] = useLocalStorage<ViewMode>({
+        // annoyingly, this is undefined on the first render.
+        key: 'view-mode',
+    });
     const hideSidebar = useCallback(() => setIsSidebarOpen(false), []);
     const toggleSidebar = useCallback(() => setIsSidebarOpen((o) => !o), []);
 
-    // todo pass setOpened into navbar for onClick close behavior
     return (
         <AppWrappers>
             <AppShell
