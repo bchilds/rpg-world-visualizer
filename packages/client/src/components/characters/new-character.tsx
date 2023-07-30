@@ -32,7 +32,7 @@ const NewCharacterForm = () => {
         [allCharacters, setAllCharacters]
     );
     return (
-        <Stack>
+        <Stack style={{ marginBottom: 'auto' }}>
             <Title order={3} style={{ justifySelf: 'flex-start' }}>
                 New Character Form
             </Title>
