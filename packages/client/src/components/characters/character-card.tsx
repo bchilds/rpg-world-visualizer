@@ -54,6 +54,7 @@ const CharacterCard = ({
         [character, updateCharacter, toggleEdit]
     );
 
+    // TODO mobile sizing
     return (
         <NodeCardComponent
             ref={ref}

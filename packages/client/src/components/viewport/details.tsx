@@ -14,7 +14,7 @@ type DetailsProps = {
     onDeleteLocation: (location: WorldLocation) => void;
     onDeleteFeature: (feature: Feature) => void;
     characters: Character[];
-    currentLocationId: WorldLocation['id']
+    currentLocationId: WorldLocation['id'];
 };
 
 export type SubDetailsProps = DetailsProps & {
@@ -52,6 +52,8 @@ const Details = ({
         onAddLocation(newLocationName);
         setNewLocationName('');
     }, [newLocationName, onAddLocation]);
+
+    // TODO make tabs/accordion controlled so that there's consistency in behavior on resize
 
     return (
         <>

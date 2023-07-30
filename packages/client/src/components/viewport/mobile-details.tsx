@@ -122,6 +122,7 @@ const MobileDetails = (props: SubDetailsProps) => {
                     </Accordion.Control>
                     <Accordion.Panel>
                         <Stack>
+                            {/* TODO add picker here to add char to location */}
                             {characters.map((character) => (
                                 <CharacterCard
                                     key={character.id}
