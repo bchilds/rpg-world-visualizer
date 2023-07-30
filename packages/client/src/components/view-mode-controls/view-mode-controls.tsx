@@ -17,7 +17,7 @@ const ViewModeControls = ({ onClick, viewMode }: ViewModeControlsProps) => {
                         onClick={() => onClick(viewModes.viewport)}
                         className={viewMode === 'viewport' ? 'selected' : ''}
                     >
-                        Viewport
+                        Locations
                     </Button>
                     <Button
                         color={viewMode === 'characters' ? 'green' : 'default'}
