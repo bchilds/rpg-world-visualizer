@@ -16,8 +16,9 @@ const NewCharacterForm = () => {
             // convert values.locations to numbers from strings
 
             if (form.isValid()) {
-                const nextId =
-                    allCharacters[allCharacters.length - 1]?.id ?? -1 + 1;
+                const lastCharacter = allCharacters[allCharacters.length - 1];
+                const lastCharId = lastCharacter?.id ?? -1;
+                const nextId = lastCharId + 1;
                 const newCharacter: Character = {
                     id: nextId,
                     ...values,

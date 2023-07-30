@@ -35,7 +35,7 @@ const ViewCharacter = ({ id }: { id: Character['id'] }) => {
                 <Text fw={700}>
                     Locations:
                     {characterLocations.map((location) => (
-                        <Text fw={400}>{location.name}</Text>
+                        <Text key={location.id} fw={400}>{location.name}</Text>
                     ))}
                 </Text>
             )}

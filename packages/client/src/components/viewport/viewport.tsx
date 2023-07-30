@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Feature, WorldLocation } from '../../types/location.types';
 import WorldNode from '../node/world-location';
 import {
@@ -37,19 +37,16 @@ const Viewport = () => {
         const currentLocation = allLocations.find(
             (loc) => loc.id === currentLocationId
         );
-        return allFeatures.filter(
-            (feat) => currentLocation?.features?.includes(feat.id)
+        return allFeatures.filter((feat) =>
+            currentLocation?.features?.includes(feat.id)
         );
     });
 
-    const [characters, setCharacters] = useState<Feature[]>(() => {
-        const currentLocation = allLocations.find(
-            (loc) => loc.id === currentLocationId
+    const characters = useMemo(() => {
+        return allCharacters.filter((char) =>
+            char.locations?.includes(currentLocationId)
         );
-        return allCharacters.filter(
-            (char) => currentLocation?.characters?.includes(char.id)
-        );
-    });
+    }, [allCharacters, allLocations, currentLocationId]);
 
     const addFeature = (newFeatureName: string) => {
         if (!newFeatureName) return;
@@ -143,8 +140,8 @@ const Viewport = () => {
         const nextLocation = getLocationById(currentLocationId);
         setChildLocations(getLocationsByIds(nextLocation.childLocations ?? []));
         setFeatures(
-            allFeatures.filter(
-                (feat) => nextLocation.features?.includes(feat.id)
+            allFeatures.filter((feat) =>
+                nextLocation.features?.includes(feat.id)
             )
         );
     }, [currentLocationId, currentWorldName]);
@@ -171,6 +168,7 @@ const Viewport = () => {
                 features={features}
                 childLocations={childLocations}
                 onSelectLocation={onSelectNode}
+                characters={characters}
             />
         </Box>
     );

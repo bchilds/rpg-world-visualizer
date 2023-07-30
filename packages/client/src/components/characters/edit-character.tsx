@@ -4,6 +4,7 @@ import { useForm, isNotEmpty, UseFormReturnType } from '@mantine/form';
 import { useCallback, useMemo } from 'react';
 import { useGlobalContext } from '../../contexts/global.context';
 import { Character } from '../../types/character.types';
+import { WorldLocation } from '../../types/location.types';
 
 export type FormValues = {
     name: string;
@@ -13,6 +14,7 @@ export type FormValues = {
     primaryFactionName: string;
     tags: string[];
     locations: string[] | number[];
+    locationNotes: string;
 };
 
 export type OnCharacterSubmit = (
@@ -27,17 +29,19 @@ export const initialValues: FormValues = {
     primaryFactionName: '',
     tags: [],
     locations: [],
+    locationNotes: '',
 };
 
 const EditCharacter = ({
     id,
+    currentLocationId,
     onSubmit,
 }: {
     id?: Character['id'];
+    currentLocationId?: WorldLocation['id'];
     onSubmit: OnCharacterSubmit;
 }) => {
-    const { allLocations, allCharacters, setAllCharacters } =
-        useGlobalContext();
+    const { allLocations, allCharacters } = useGlobalContext();
     const locationOptions = useMemo(() => {
         return allLocations.map((location) => ({
             value: location.id.toString(),
@@ -46,6 +50,11 @@ const EditCharacter = ({
     }, [allLocations]);
 
     const getFormValuesFromCharacter = (character: Character): FormValues => {
+        const locationNotes = currentLocationId
+            ? (character.locationNotes &&
+                  character.locationNotes[currentLocationId]) ??
+              ''
+            : '';
         return {
             name: character.name,
             description: character.description ?? '',
@@ -54,6 +63,7 @@ const EditCharacter = ({
             primaryFactionName: character.primaryFaction?.name ?? '',
             tags: character.tags,
             locations: character.locations.map((id) => id.toString()),
+            locationNotes,
         };
     };
 
@@ -124,7 +134,14 @@ const EditCharacter = ({
                 nothingFound="Nope."
                 {...form.getInputProps('locations')}
             />
-            {/* add notes for location somehow -- I may do this in character list actually */}
+            {currentLocationId !== undefined && (
+                <Textarea
+                    label="Location Notes"
+                    placeholder="Notes"
+                    autosize
+                    {...form.getInputProps('notes')}
+                />
+            )}
             {/* MultiSelect for faction based on factionName */}
             {/* stats */}
             {/* create item generator for loot */}

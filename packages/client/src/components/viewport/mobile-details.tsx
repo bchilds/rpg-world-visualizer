@@ -25,6 +25,7 @@ const MobileDetails = (props: SubDetailsProps) => {
         setNewFeatureName,
         newLocationName,
         setNewLocationName,
+        characters,
     } = props;
     return (
         <MediaQuery largerThan={'sm'} styles={{ display: 'none' }}>
@@ -114,7 +115,7 @@ const MobileDetails = (props: SubDetailsProps) => {
                     <Accordion.Control>
                         <Group>
                             <Text>Characters</Text>
-                            <Badge variant="filled">x</Badge>
+                            <Badge variant="filled">{characters.length}</Badge>
                         </Group>
                     </Accordion.Control>
                     <Accordion.Panel></Accordion.Panel>

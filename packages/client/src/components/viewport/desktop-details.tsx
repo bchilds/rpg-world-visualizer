@@ -5,6 +5,7 @@ import InputWithButton from '../common/input-with-button';
 import FeatureNode from '../node/feature';
 import WorldNode from '../node/world-location';
 import { SubDetailsProps } from './details';
+import CharacterCard from '../characters/character-card';
 
 const TAB_NAMES = {
     features: 'features',
@@ -38,6 +39,7 @@ const LargeDetails = (props: SubDetailsProps) => {
         setNewFeatureName,
         newLocationName,
         setNewLocationName,
+        characters,
     } = props;
 
     return (
@@ -71,7 +73,9 @@ const LargeDetails = (props: SubDetailsProps) => {
                     </Tabs.Tab>
                     <Tabs.Tab
                         value={TAB_NAMES.characters}
-                        rightSection={<Badge variant="filled">x</Badge>}
+                        rightSection={
+                            <Badge variant="filled">{characters.length}</Badge>
+                        }
                     >
                         Characters
                     </Tabs.Tab>
@@ -142,7 +146,14 @@ const LargeDetails = (props: SubDetailsProps) => {
                     </Stack>
                 </Tabs.Panel>
                 <Tabs.Panel pt="xs" value={TAB_NAMES.characters}>
-                    <div className="list-container"></div>
+                    <Stack>
+                        {characters.map((character) => (
+                            <CharacterCard
+                                key={character.id}
+                                id={character.id}
+                            />
+                        ))}
+                    </Stack>
                 </Tabs.Panel>
             </Tabs>
         </MediaQuery>

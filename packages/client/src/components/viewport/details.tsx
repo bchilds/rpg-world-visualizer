@@ -3,6 +3,7 @@ import { Feature, WorldLocation } from '../../types/location.types';
 import { useCallback } from 'react';
 import LargeDetails from './desktop-details';
 import MobileDetails from './mobile-details';
+import { Character } from '../../types/character.types';
 
 type DetailsProps = {
     onAddFeature: (newFeatureName: string) => void;
@@ -12,6 +13,7 @@ type DetailsProps = {
     onSelectLocation: (location: WorldLocation) => void;
     onDeleteLocation: (location: WorldLocation) => void;
     onDeleteFeature: (feature: Feature) => void;
+    characters: Character[];
 };
 
 export type SubDetailsProps = DetailsProps & {
@@ -34,6 +36,7 @@ const Details = ({
     onDeleteLocation,
     onDeleteFeature,
     onSelectLocation,
+    characters,
 }: DetailsProps) => {
     const [newLocationName, setNewLocationName] = useInputState('');
     const [newFeatureName, setNewFeatureName] = useInputState('');
@@ -62,6 +65,7 @@ const Details = ({
                 setNewFeatureName={setNewFeatureName}
                 newLocationName={newLocationName}
                 setNewLocationName={setNewLocationName}
+                characters={characters}
             />
             <MobileDetails
                 onAddFeature={_onAddFeature}
@@ -75,6 +79,7 @@ const Details = ({
                 setNewFeatureName={setNewFeatureName}
                 newLocationName={newLocationName}
                 setNewLocationName={setNewLocationName}
+                characters={characters}
             />
         </>
     );
