@@ -26,15 +26,19 @@ const ViewCharacter = ({ id }: { id: Character['id'] }) => {
             <Text fw={700}>
                 Character Name: <Text fw={400}>{character.name}</Text>
             </Text>
-            <Text fw={700}>
-                Description: <Text fw={400}>{character.description}</Text>
-            </Text>
-            <Text fw={700}>
-                Locations:
-                {characterLocations.map((location) => (
-                    <Text fw={400}>{location.name}</Text>
-                ))}
-            </Text>
+            {character.description && (
+                <Text fw={700}>
+                    Description: <Text fw={400}>{character.description}</Text>
+                </Text>
+            )}
+            {characterLocations.length > 0 && (
+                <Text fw={700}>
+                    Locations:
+                    {characterLocations.map((location) => (
+                        <Text fw={400}>{location.name}</Text>
+                    ))}
+                </Text>
+            )}
         </>
     );
 };
