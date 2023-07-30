@@ -26,6 +26,7 @@ function App() {
     const [viewMode, setViewMode] = useLocalStorage<ViewMode>({
         // annoyingly, this is undefined on the first render.
         key: 'view-mode',
+        defaultValue: viewModes.viewport,
     });
     const hideSidebar = useCallback(() => setIsSidebarOpen(false), []);
     const toggleSidebar = useCallback(() => setIsSidebarOpen((o) => !o), []);
