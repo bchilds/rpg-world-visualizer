@@ -1,9 +1,11 @@
+import { useGlobalContext } from '../../contexts/global.context';
 import { WorldLocation } from '../../types/location.types';
 
 export type D3NodeAttributes = {
     id: number;
     description?: string;
     features: number;
+    characters: number;
 };
 
 export type D3TreeNode = {
@@ -16,12 +18,15 @@ const convertToD3Tree = (
     rootNode: WorldLocation,
     findNodeById: (id: number) => WorldLocation
 ): D3TreeNode => {
-    const { id, name, childLocations, features } = rootNode;
+    // temporary hack because I don't want to also update each location on char change
+    const { allCharacters } = useGlobalContext();
+    const { id, name, childLocations, features, characters } = rootNode;
     const d3Node: D3TreeNode = {
         name,
         attributes: {
             id,
-            features: features.length,
+            features: features?.length ?? 0,
+            characters: allCharacters.filter(character => character.locations.includes(id)).length,
         },
         children: [],
     };

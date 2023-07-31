@@ -119,6 +119,7 @@ const Overview = ({ onNodeSelect }: { onNodeSelect: () => void }) => {
                         translate={translate}
                         zoomable
                         initialDepth={90}
+                        nodeSize={{ x: 350, y: 200 }}
                         onNodeClick={_onNodeClick}
                     />
                 </>

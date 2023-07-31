@@ -37,6 +37,7 @@ const OverviewTools = ({ currentMode, onClick }: OverviewToolsProps) => {
                 color={currentMode === 'reassign' ? 'green' : 'default'}
                 disabled={currentMode === 'reassign'}
                 onClick={() => onClick('reassign')}
+                sx={sx}
             >
                 Reassign
             </Button>
