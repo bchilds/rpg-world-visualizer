@@ -25,6 +25,7 @@ const CharacterCard = ({
         throw new Error(`Character with id ${id} not found`);
     }
 
+    // TODO create "remove from location"
     const deleteCharacter = useCallback(
         (id: number) => {
             const newCharacters = allCharacters.filter(
@@ -61,6 +62,7 @@ const CharacterCard = ({
             onDelete={() => deleteCharacter(id)}
             onSelect={() => toggleEdit(true)}
             showHover
+            cardType="Character"
         >
             {isEdit && (
                 <EditCharacter

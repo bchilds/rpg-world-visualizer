@@ -15,8 +15,10 @@ type NodeCardComponentProps = {
     canNavigate?: boolean;
     showHover?: boolean;
     children: React.ReactNode;
+    cardType: string; // Location, Character, Feature...
 };
 
+// TODO create an "additional actions" section/prop to pass in other stuff
 const NodeCardComponent = forwardRef<
     ElementRef<typeof Paper>,
     NodeCardComponentProps
@@ -78,6 +80,7 @@ const NodeCardComponent = forwardRef<
                         )}
                         {onDelete && (
                             <DeleteX
+                                title={`Delete ${props.cardType}`}
                                 onDelete={onDelete}
                                 style={{ marginLeft: 'auto' }}
                             />

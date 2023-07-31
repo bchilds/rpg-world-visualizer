@@ -148,7 +148,11 @@ const Viewport = () => {
     return (
         <Box maw={'50rem'} w={'100%'}>
             <Text mb="md">
-                Add features to describe a location, or child locations.
+                Add features to describe a location. Add locations you can go to
+                from the selected location! Use Overview mode to navigate your
+                world or rearrange it. Use the Characters page to create
+                characters and associate them with locations. You'll be able to
+                add location-specific notes from that location's details.
             </Text>
             <WorldNode
                 key={`${currentLocationId}-${

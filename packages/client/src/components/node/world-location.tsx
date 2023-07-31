@@ -60,6 +60,7 @@ export const WorldNode = ({
             onSelect={onSelect}
             onDelete={onDelete}
             canNavigate={canNavigate}
+            cardType="Character"
         >
             <TextInput
                 value={nodeName}

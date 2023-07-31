@@ -6,7 +6,9 @@ import React from 'react';
 const DeleteX = ({
     onDelete,
     style,
+    title = 'Delete Location',
 }: {
+    title?: string;
     onDelete: () => void;
     style?: React.CSSProperties;
 }) => {
@@ -16,7 +18,7 @@ const DeleteX = ({
 
     return (
         <CloseButton
-            title="Delete Location"
+            title={title}
             onClick={onDoubleClick}
             color={confirm ? 'red' : 'default'}
             ref={closeButtonRef}

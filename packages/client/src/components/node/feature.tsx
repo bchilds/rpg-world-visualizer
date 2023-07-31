@@ -57,7 +57,7 @@ const FeatureNode = ({
     };
 
     return (
-        <NodeCardComponent onDelete={_onDelete}>
+        <NodeCardComponent onDelete={_onDelete} cardType="Feature">
             <TextInput
                 value={name}
                 onChange={setName}
