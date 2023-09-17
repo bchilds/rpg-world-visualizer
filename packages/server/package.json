@@ -5,6 +5,7 @@
     "main": "app.ts",
     "scripts": {
         "start": "ts-node-esm app.ts",
+        "check": "tsc --noEmit",
         "test": "echo \"Error: no test specified\" && exit 1",
         "prepare": "cd ../.. && husky install"
     },

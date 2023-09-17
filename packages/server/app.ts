@@ -1,10 +1,10 @@
-import 'dotenv/config';
+import config from './config.ts';
 import express from 'express';
 import helmet from 'helmet';
 
 const app = express();
 app.use(helmet());
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server listening on port ${process.env.PORT}`);
+app.listen(config.PORT, () => {
+    console.log(`Server listening on port ${config.PORT}`);
 });
